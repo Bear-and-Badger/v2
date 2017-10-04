@@ -1,11 +1,11 @@
-{% macro paginator(link, id, max, curr=1, range=5) %}
-    <h6>Page {{curr}} of {{max}}</h6>
-    <ul class="paginator">
-        {% if curr > 1 %}
-        <li>{{linkTo(link, 'Prev', { page : curr - 1, id : id }) }}</li>
-        {% endif %}
-        {% if curr < max %}
-        <li>{{linkTo(link, 'Next', { page : curr + 1, id : id }) }}</li>
-        {% endif %}
-    </ul>
-{% endmacro %}
+<h6>Page {{curr}} of {{max}}</h6>
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    @if(curr > 1)
+      <li class="page-item">{{linkTo(link, 'Prev', { page : curr - 1, id : id }) }}</li>
+    @endif
+    @if(curr < max)
+      <li class="page-item">{{linkTo(link, 'Next', { page : curr + 1, id : id }) }}</li>
+    @endif
+  </ul>
+</nav>

@@ -10,23 +10,23 @@ const ModelUtil = module.exports = {}
  * <P>
  * Generator callbacks for failure, pre-save and post-save are used.
  */
-ModelUtil.save = async (model, data, rules, failure, preSave, postSave) => {
+ModelUtil.save = async (Model, data, rules, failure, preSave, postSave) => {
   const validation = await Validator.validate(data, rules)
 
   if (validation.fails()) {
-    return await failure(validation.messages())
+    return failure(validation.messages())
   }
 
   let instance
 
   if (data.id) {
-    instance = yield model.find(data.id)
+    instance = await Model.find(data.id)
 
     if (!instance) {
-      return yield failure([new Error('Unable to find instance for id: ' + data.id)])
+      return failure([new Error('Unable to find instance for id: ' + data.id)])
     }
   } else {
-    instance = new model()
+    instance = new Model()
   }
 
   delete data.id
@@ -35,9 +35,9 @@ ModelUtil.save = async (model, data, rules, failure, preSave, postSave) => {
     instance[key] = data[key]
   })
 
-  yield preSave(instance)
+  await preSave(instance)
 
-  yield instance.save()
+  await instance.save()
 
-  yield postSave(instance)
+  await postSave(instance)
 }

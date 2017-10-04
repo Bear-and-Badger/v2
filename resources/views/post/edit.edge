@@ -1,36 +1,36 @@
-{% extends 'master' %}
+@layout('master')
 
-{% block content %}
-  {% if post %}
+@section('content')
+  @if(post)
   <h2>Edit post</h2>
-  {% else %}
+  @else
   <h2>New post</h2>
-  {% endif %}
+  @endif
 
-  {% if old('errors') %}
+  @if(old('errors'))
   <div class="alert alert-danger">
-  {%for error in old('errors') %}
+  @each(error in old('errors'))
   <li> {{error.message}}</li>
-  {% endfor %}
+  @endeach
   </div>
-  {%endif%}
+  @endif
 
-  {{ form.open({action : 'PostController.save'}) }}
 
-  {{ csrfField}}
+  <form method="POST" action="{{ route('PostController.save') }}">
 
-  {% if post %}
-  {{ form.hidden('id', post.id) }}
-  {% else %}
-  {{ form.hidden('thread_id', old('thread_id', thread_id)) }}
-  {% endif %}
+  {{ csrfField() }}
+
+  @if(post)
+  <input type="hidden" name="id" value="{{ post.id }}" />
+  @else
+  <input type="hidden" name="thread_id" value="{{ old('thread_id', thread_id) }}" />
+  @endif
 
   <fieldset class="form-group">
-  {{ form.label('Content') }}
-  {{ form.textarea('content', old('content', post.content), { class: 'form-control' }) }}
+  <label for="title">Content</label>
+  <input type="text" name="content" value="{{ old('content', post.content) }}" class="form-control" />
   </fieldset>
-  
-  {{ form.submit('Save', 'save', { class: 'btn btn-primary btn-block'}) }}
-  
-  {{ form.close() }}
-{% endblock %}
+
+  <input type="submit" value="Post" class="btn btn-primary btn-block"></input>
+  </form>
+@endsection

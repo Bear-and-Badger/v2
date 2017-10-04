@@ -1,43 +1,44 @@
-{% extends 'master' %}
+@layout('master')
 
-{% block content %}
-  {% if thread %}
+@section('content')
+  @if(thread)
   <h2>Edit discussion</h2>
-  {% else %}
+  @else
   <h2>New discussion</h2>
-  {% endif %}
+  @endif
 
-  {% if old('errors') %}
+  @if(old('errors'))
   <div class="alert alert-danger">
-  {%for error in old('errors') %}
+  @each(error in old('errors'))
   <li> {{error.message}}</li>
-  {% endfor %}
+  @endeach
   </div>
-  {%endif%}
-  {{ form.open({action : 'ThreadController.save'}) }}
+  @endif
 
-  {{ csrfField}}
+  <form method="POST" action="{{ route('ThreadController.save') }}">
 
-  {% if thread %}
-  {{ form.hidden('id', thread.id) }}
-  {% endif %}
+  {{ csrfField() }}
+
+  @if(thread)
+  <input type="hidden" name="id" value="{{ thread.id }}" />
+  @endif
 
   <fieldset class="form-group">
-  {{ form.label('Thread title') }}
-  {{ form.text('title', old('title', thread.title), { class: 'form-control' }) }}
+  <label for="title">Title</label>
+  <input type="text" name="title" value="{{ old('title', thread.title) }}" class="form-control" />
   </fieldset>
 
   <fieldset class="form-group">
-  {{ form.label('Category') }}
-  {{ form.select('category_id', categories, old('category_id', thread.category_id + '')) }}
+  <label for="category_id">Category</label>
+  @!component('lib.select', name = 'category_id', options = categories, selected = old('category_id', thread.category_id + ''))
   </fieldset>
 
   <fieldset class="form-group">
-  {{ form.label('Content') }}
-  {{ form.textarea('content', old('content', thread.content), { class: 'form-control' }) }}
+  <label for="title">Content</label>
+  <input type="text" name="content" value="{{ old('content', thread.content) }}" class="form-control" />
   </fieldset>
-  
-  {{ form.submit('Save', 'save', { class: 'btn btn-primary btn-block'}) }}
-  
-  {{ form.close() }}
-{% endblock %}
+
+  <input type="submit" value="Save" class="btn btn-primary btn-block"></input>
+
+  </form>
+@endsection

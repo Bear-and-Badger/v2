@@ -9,15 +9,16 @@ const DEFAULT_RESPONSE = function () {
 
 class Permissions {
   async handle ({auth}, next) {
-    if (auth.user) {
-      const checker = await PermissionUtil.createChecker(auth.user)
+    try {
+      const user = await auth.getUser()
+      const checker = await PermissionUtil.createChecker(user)
+
       View.global('hasPermission', checker)
-      View.global('currentUser', auth.user)
-    } else {
+      View.global('currentUser', user)
+    } catch (e) {
       View.global('hasPermission', DEFAULT_RESPONSE)
     }
-
-    await next()
+    return next()
   }
 }
 

@@ -11,10 +11,11 @@ class UserController {
   }
 
   async login ({request, response, auth, session}) {
-    const data = request.only('email', 'password')
+    const data = request.only(['email', 'password'])
 
     const rules = {
-      email: 'required|email'
+      email: 'required|email',
+      password: 'required'
     }
 
     const validation = await Validator.validate(data, rules)
@@ -28,11 +29,8 @@ class UserController {
       response.redirect('back')
     } else {
       try {
-        await auth.attempt(data.email, "password")
-
-        const prev = session.get('prev', 'profile')
-
-        response.redirect(prev)
+        await auth.attempt(data.email, data.password)
+        response.redirect(session.get('prev', 'profile'))
       } catch (e) {
         session.withErrors([e])
                .flashAll()
@@ -43,7 +41,7 @@ class UserController {
   }
 
   async store ({request, auth, session, response}) {
-    const data = request.only('name', 'email', 'password')
+    const data = request.only(['name', 'email', 'password'])
     const validation = await Validator.validate(data, User.rules)
 
     if (validation.fails()) {

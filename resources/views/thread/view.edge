@@ -1,27 +1,28 @@
-{% extends 'master' %}
-{% block content %}
+@layout('master')
+@section('content')
     {{linkTo('discussions', 'Back to discussions')}}
     <h2>{{thread.title}}</h2>
-    <h5>{{thread.owner}}</h5>
+    <h5>{{owner.name}}</h5>
 
     <p>{{thread.content}}
 
-    {% if hasPermission('edit', 'thread', thread.user_id) %}
+    @if( hasPermission('edit', 'thread', thread.user_id))
     {{linkTo('edit_discussion', 'Edit discussion', { id : thread.id }) }}
-    {% endif %}
+    @endif
 
-    {% from 'lib.paginator' import paginator %}
-
-    {{ paginator('discussion', thread.id, posts.lastPage, posts.currentPage) }}
-
+    @!component('lib.paginator', link = 'discussion', id = thread.id, max = posts.lastPage, curr = posts.page)
     <ul>
-    {% for post in posts.data %}
-       <li><h5>{{post.owner.name}}</h5>: {{post.content}}</li>
-       <li>{{linkTo('edit_post', 'Edit post', { id : post.id }) }}</li>
-    {% else %}
+    @each(post in posts.data)
+       <li>
+         <h5>{{post.owner.name}}</h5>: {{post.content}}
+         @if( hasPermission('edit', 'post', post.owner.id))
+         {{linkTo('edit_post', 'Edit post', { id : post.id }) }}
+         @endif
+       </li>
+    @else
        No posts
-    {% endfor %}
+    @endeach
     </ul>
 
     {{linkTo('new_post', 'New post', { thread : thread.id }) }}
-{% endblock %}
+@endsection

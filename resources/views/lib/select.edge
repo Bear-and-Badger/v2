@@ -1,0 +1,5 @@
+<select name="{{name}}">
+    @each((key, value) in options)
+        <option value="{{value}}" @if(selected === value)selected="true"@endif>{{key}}</option>
+    @endeach
+</select>

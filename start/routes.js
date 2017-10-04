@@ -25,10 +25,10 @@ Route.on('/signup').render('user.signup')
 /**
  * User profile pages
  */
-Route.post('/signup', 'UserController.store')
-Route.post('/login', 'UserController.login')
-Route.get('/logout', 'UserController.logout').middleware('checkUser')
-Route.get('/profile', 'UserController.profile').middleware('checkUser')
+Route.post('/signup', 'UserController.store').as('signup')
+Route.post('/login', 'UserController.login').as('login')
+Route.get('/logout', 'UserController.logout').middleware('checkUser').as('logout')
+Route.get('/profile', 'UserController.profile').middleware('checkUser').as('profile')
 
 /**
  * Post content
@@ -47,7 +47,7 @@ Route.group('authorised', function () {
   Route.get('/edit/post/:id', 'PostController.edit').as('edit_post')
   Route.post('/save/post', 'PostController.save')
 
-  Route.get('/new/discussion', 'ThreadController.edit').as('new_discussion')
+  Route.get('/new/discussion', 'ThreadController.new').as('new_discussion')
   Route.get('/edit/discussion/:id', 'ThreadController.edit').as('edit_discussion')
   Route.post('/save/discussion', 'ThreadController.save')
 }).middleware('checkUser')

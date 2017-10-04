@@ -5,35 +5,50 @@ const ViewUtil = use('App/Helpers/ViewUtil')
 
 const Category = use('App/Models/Category')
 const Thread = use('App/Models/Thread')
+const Post = use('App/Models/Post')
 
 class ThreadController {
   async index ({request, view}) {
-    const page = parseInt(request.param('page', 1), 10)
+    const page = parseInt(request.input('page', 1), 10)
 
-    const threads = await Thread.query().with('category')
-            .with('owner')
-            .orderBy('updated_at', 'desc')
-            .paginate(page, 5)
+    const threads = await Thread.query()
+        .with('category')
+        .with('owner')
+        .orderBy('updated_at', 'desc')
+        .paginate(page, 5)
 
     return view.render('thread.index', threads.toJSON())
   }
 
-  async view ({request, view}) {
-    const page = parseInt(request.param('page', 1), 10)
-    const thread = await Thread.find(request.param('id'))
+  async view ({view, params}) {
+    const page = params.page ? parseInt(params.page, 10) : 1
 
-    const posts = await thread.posts().with('owner')
-            .orderBy('created_at', 'asc')
-            .paginate(page, 2)
+    const thread = await Thread.find(params.id)
+    const owner = await thread.owner()
+
+    const posts = await Post.query()
+        .with('owner')
+        .where('thread_id', '=', thread.id)
+        .orderBy('created_at', 'asc')
+        .paginate(page, 2)
 
     return view.render('thread.view', {
       thread: thread.toJSON(),
+      owner: owner[0],
       posts: posts.toJSON()
     })
   }
 
-  async edit ({request, view}) {
-    const thread = await Thread.find(request.param('id'))
+  async new ({view}) {
+    const categories = await Category.all()
+
+    return view.render('thread.edit', {
+      categories: ViewUtil.objectToSelectOptions(categories.toJSON(), 'id', 'name')
+    })
+  }
+
+  async edit ({params, view}) {
+    const thread = await Thread.find(params.id)
     const categories = await Category.all()
 
     return view.render('thread.edit', {
@@ -42,8 +57,8 @@ class ThreadController {
     })
   }
 
-  async save ({request, response}) {
-    const data = request.only('id', 'title', 'category_id', 'content')
+  async save ({request, response, session, auth}) {
+    const data = request.only(['id', 'title', 'category_id', 'content'])
 
     const rules = {
       title: 'required|max:150',
@@ -51,17 +66,17 @@ class ThreadController {
     }
 
     await ModelUtil.save(Thread, data, rules, async (errors) => {
-      await request.withOnly('id', 'title', 'content', 'category_id')
-                .andWith({
-                  errors: errors
-                })
-                .flash()
+      session.put('id', data.id)
+      session.put('title', data.title)
+      session.put('content', data.content)
+      session.put('category_id', data.category_id)
+
+      session.withErrors(errors)
+             .flashAll()
 
       response.redirect('back')
     }, async (thread) => {
-      if (thread.isNew()) {
-        thread.user_id = request.user.id
-      }
+      thread.user_id = auth.user.id
     }, async (thread) => {
       response.route('discussion', {id: thread.id})
     })

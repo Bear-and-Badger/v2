@@ -2,12 +2,10 @@
 
 class CheckUser {
   async handle ({request, response, auth, session}, next) {
-    const user = await auth.check()
-
-    if (user) {
-      request.user = auth.getUser()
-      await next()
-    } else {
+    try {
+      await auth.check()
+      return next()
+    } catch (e) {
       session.put('prev', request.originalUrl())
       response.redirect('/login')
     }
