@@ -7,8 +7,8 @@ const checkForUser = function (action, model, owner, user, permissions) {
 
   permissions.forEach(function (permission) {
     if (permission.action === action &&
-            permission.model === model &&
-            (permission.all || owner === user)) {
+        permission.model === model &&
+        (permission.all || owner === user)) {
       allowed = true
     }
   })
@@ -24,7 +24,7 @@ PermissionUtil.check = async (action, model, owner, user) => {
 
 PermissionUtil.createChecker = async (user) => {
   const permissions = await user.permissions()
-
+console.log(permissions)
   return function (action, model, owner) {
     return checkForUser(action, model, owner, user.id, permissions)
   }

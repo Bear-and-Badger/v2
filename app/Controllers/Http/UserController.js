@@ -2,6 +2,7 @@
 
 const Validator = use('Validator')
 const User = use('App/Models/User')
+const Role = use('App/Models/Role')
 
 class UserController {
   async logout ({auth, response}) {
@@ -40,7 +41,7 @@ class UserController {
     }
   }
 
-  async store ({request, auth, session, response}) {
+  async signup ({request, auth, session, response}) {
     const data = request.only(['name', 'email', 'password'])
     const validation = await Validator.validate(data, User.rules)
 
@@ -50,7 +51,11 @@ class UserController {
 
       response.redirect('back')
     } else {
-      await User.create(data)
+      const userRole = await Role.query().where('name', '=', 'User').fetch()
+      const user = await User.create(data)
+
+      user.roles().save(userRole)
+
       await auth.attempt(data.email, data.password)
 
       response.redirect('profile')

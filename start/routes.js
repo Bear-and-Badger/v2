@@ -25,7 +25,7 @@ Route.on('/signup').render('user.signup')
 /**
  * User profile pages
  */
-Route.post('/signup', 'UserController.store').as('signup')
+Route.post('/signup', 'UserController.signup').as('signup')
 Route.post('/login', 'UserController.login').as('login')
 Route.get('/logout', 'UserController.logout').middleware('checkUser').as('logout')
 Route.get('/profile', 'UserController.profile').middleware('checkUser').as('profile')

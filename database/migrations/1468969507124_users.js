@@ -9,6 +9,7 @@ class UserSchema extends Schema {
       table.string('name', 80).notNullable().unique()
       table.string('email', 254).notNullable().unique()
       table.string('password', 60).notNullable()
+      table.integer('role_id').unsigned().references('roles.id')
       table.timestamp('deleted_at').defaultTo(this.fn.now())
       table.timestamps()
     })

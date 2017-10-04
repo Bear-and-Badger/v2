@@ -11,11 +11,11 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('UserController.store') }}">
+    <form method="POST" action="{{ route('UserController.signup') }}">
         {{ csrfField() }}
 
-        <label for="username">username:</label>
-        <input type="text" name="username" value="{{old('username', '')}}"></input>
+        <label for="name">Username:</label>
+        <input type="text" name="name" value="{{old('name', '')}}"></input>
         <br />
         <label for="email">Email:</label>
         <input type="text" name="email" value="{{old('email', '')}}"></input>

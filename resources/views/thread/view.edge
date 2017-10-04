@@ -15,6 +15,7 @@
     @each(post in posts.data)
        <li>
          <h5>{{post.owner.name}}</h5>: {{post.content}}
+
          @if( hasPermission('edit', 'post', post.owner.id))
          {{linkTo('edit_post', 'Edit post', { id : post.id }) }}
          @endif

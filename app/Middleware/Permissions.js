@@ -16,6 +16,7 @@ class Permissions {
       View.global('hasPermission', checker)
       View.global('currentUser', user)
     } catch (e) {
+      View.global('currentUser', undefined)
       View.global('hasPermission', DEFAULT_RESPONSE)
     }
     return next()
