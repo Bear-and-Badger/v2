@@ -1,0 +1,27 @@
+{% extends 'master' %}
+{% block content %}
+    {{linkTo('discussions', 'Back to discussions')}}
+    <h2>{{thread.title}}</h2>
+    <h5>{{thread.owner}}</h5>
+
+    <p>{{thread.content}}
+
+    {% if hasPermission('edit', 'thread', thread.user_id) %}
+    {{linkTo('edit_discussion', 'Edit discussion', { id : thread.id }) }}
+    {% endif %}
+
+    {% from 'lib.paginator' import paginator %}
+
+    {{ paginator('discussion', thread.id, posts.lastPage, posts.currentPage) }}
+
+    <ul>
+    {% for post in posts.data %}
+       <li><h5>{{post.owner.name}}</h5>: {{post.content}}</li>
+       <li>{{linkTo('edit_post', 'Edit post', { id : post.id }) }}</li>
+    {% else %}
+       No posts
+    {% endfor %}
+    </ul>
+
+    {{linkTo('new_post', 'New post', { thread : thread.id }) }}
+{% endblock %}

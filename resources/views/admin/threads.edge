@@ -1,0 +1,16 @@
+{% extends 'master' %}
+{% from 'lib.paginator' import paginator %}
+{% block content %}
+   <h2>Discussions ({{total}})</h2>
+   {{ paginator('admin_threads', null, lastPage, currentPage) }}
+   <div class="discussions-wrapper">
+   {% for thread in data %}
+       <div class="post">
+           <h5>{{linkTo('discussion', thread.title, { id : thread.id }) }} ({{thread.category.name}})</h5>
+           <h6>{{ thread.owner.name }}</h6>
+       </div>
+   {% else %}
+       <h4>No posts found</h4>
+   {% endfor %}
+   </div>
+{% endblock %}

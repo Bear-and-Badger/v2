@@ -1,0 +1,17 @@
+{% extends 'master' %}
+{% from 'lib.paginator' import paginator %}
+{% block content %}
+   <h2>Categories</h2>
+
+   {{linkTo('new_category', 'New category')}}
+
+   <div class="discussions-wrapper">
+   {% for category in categories%}
+       <div class="post">
+           <h5>{{linkTo('edit_category', category.name, { id : category.id })}} ({{category.slug}})</h5>
+       </div>
+   {% else %}
+       <h4>No categories found</h4>
+   {% endfor %}
+   </div>
+{% endblock %}

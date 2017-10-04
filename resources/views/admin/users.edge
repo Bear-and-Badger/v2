@@ -1,0 +1,22 @@
+{% extends 'master' %}
+{% from 'lib.paginator' import paginator %}
+{% block content %}
+   <h2>Users ({{total}})</h2>
+
+   {% if old('user') %}
+       <p>Deleted user: {{ old('user').name }}
+   {% endif %}
+
+   {{ paginator('admin_users', null, lastPage, currentPage) }}
+   <div class="discussions-wrapper">
+   {% for user in data %}
+       <div class="post">
+           <h5>{{linkTo('user', user.name, { id : user.id }) }}</h5>
+           <h6>{{user.email}}</h6>
+           <h6>{{linkTo('delete_user', 'Delete', { id : user.id }) }}</h6>
+       </div>
+   {% else %}
+       <h4>No users found</h4>
+   {% endfor %}
+   </div>
+{% endblock %}

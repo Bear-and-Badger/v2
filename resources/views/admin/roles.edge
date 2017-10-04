@@ -1,0 +1,22 @@
+{% extends 'master' %}
+{% block content %}
+   <h2>Roles</h2>
+
+   {% if old('role') %}
+       <p>Deleted role: {{ old('role').name }}
+   {% endif %}
+
+   <div class="discussions-wrapper">
+   {% for role in roles %}
+       <div class="post">
+           <h5>{{role.name}}
+
+           {% for permission in role.permissions %}
+           <h6>{{permision.action}} : {{permission.model}}</h6>
+           {% endfor %}
+       </div>
+   {% else %}
+       <h4>No roles found</h4>
+   {% endfor %}
+   </div>
+{% endblock %}

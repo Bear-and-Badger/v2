@@ -1,0 +1,23 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Foo</title>
+  <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,200,300,600,700,900' rel='stylesheet' type='text/css'>
+  <link rel="icon" href="/assets/favicon.png" type="image/x-icon">
+  <link rel="stylesheet" type="text/css" href="{{url}}/style.css">
+</head>
+<body>
+  <section>
+      @if(currentUser)
+      <strong>Welcome back, {{ currentUser.name }}</strong>
+      @endif
+  </section>
+  <section>
+    <div class="__wrapper">
+      @!section('content')
+     </div><!-- end wrapper -->
+  </section>
+</body>
+</html>

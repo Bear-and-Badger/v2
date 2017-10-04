@@ -1,0 +1,13 @@
+{% extends 'master' %}
+{% block content %}
+   <h2>Categories<h2>
+   <div class="discussions-wrapper">
+   {% for category in categories %}
+       <div class="post">
+           <h5>{{linkTo('category', category.name, { id : category.slug }) }}</h5>
+       </div>
+   {% else %}
+       <h4>No categories found</h4>
+   {% endfor %}
+   </div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'master' %}
+
+{% block content %}
+
+  {% if old('errors') %}
+  <div class="alert alert-danger">
+  {%for error in old('errors') %}
+  <li> {{error.message}}</li>
+  {% endfor %}
+  </div>
+  {%endif%}
+  {{ form.open({action : 'CategoryController.save'}) }}
+
+  {{ csrfField}}
+
+  {% if category %}
+  {{ form.hidden('id', category.id)}}
+  {% endif %}
+
+  <fieldset class="form-group">
+  {{ form.label('Name') }}
+  {{ form.text('name', old('name', category.name), { class: 'form-control' }) }}
+  </fieldset>
+  
+  {{ form.submit('Add', 'add', { class: 'btn btn-primary btn-block'}) }}
+  
+  {{ form.close() }}
+{% endblock %}

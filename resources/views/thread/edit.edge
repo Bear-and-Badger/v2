@@ -1,0 +1,43 @@
+{% extends 'master' %}
+
+{% block content %}
+  {% if thread %}
+  <h2>Edit discussion</h2>
+  {% else %}
+  <h2>New discussion</h2>
+  {% endif %}
+
+  {% if old('errors') %}
+  <div class="alert alert-danger">
+  {%for error in old('errors') %}
+  <li> {{error.message}}</li>
+  {% endfor %}
+  </div>
+  {%endif%}
+  {{ form.open({action : 'ThreadController.save'}) }}
+
+  {{ csrfField}}
+
+  {% if thread %}
+  {{ form.hidden('id', thread.id) }}
+  {% endif %}
+
+  <fieldset class="form-group">
+  {{ form.label('Thread title') }}
+  {{ form.text('title', old('title', thread.title), { class: 'form-control' }) }}
+  </fieldset>
+
+  <fieldset class="form-group">
+  {{ form.label('Category') }}
+  {{ form.select('category_id', categories, old('category_id', thread.category_id + '')) }}
+  </fieldset>
+
+  <fieldset class="form-group">
+  {{ form.label('Content') }}
+  {{ form.textarea('content', old('content', thread.content), { class: 'form-control' }) }}
+  </fieldset>
+  
+  {{ form.submit('Save', 'save', { class: 'btn btn-primary btn-block'}) }}
+  
+  {{ form.close() }}
+{% endblock %}
