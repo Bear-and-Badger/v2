@@ -17,16 +17,6 @@ class User extends Model {
     this.addHook('beforeCreate', 'User.hashPassword')
   }
 
-  /**
-   * A relationship on tokens is required for auth to
-   * work. Since features like `refreshTokens` or
-   * `rememberToken` will be saved inside the
-   * tokens table.
-   *
-   * @method tokens
-   *
-   * @return {Object}
-   */
   tokens () {
     return this.hasMany('App/Models/Token')
   }
@@ -41,10 +31,6 @@ class User extends Model {
 
   role () {
     return this.belongsTo('App/Models/Role')
-  }
-
-  permissions () {
-    return this.manyThrough('App/Models/Role', 'permissions')
   }
 
   can (action, model, owner) {

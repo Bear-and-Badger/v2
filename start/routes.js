@@ -16,15 +16,10 @@
 const Route = use('Route')
 
 /**
- * Stateless pages - just render the template
- */
-Route.on('/').render('welcome')
-Route.on('/login').render('user.login')
-Route.on('/signup').render('user.signup')
-
-/**
  * User profile pages
  */
+Route.on('/login').render('user.login')
+Route.on('/signup').render('user.signup')
 Route.post('/signup', 'UserController.signup').as('signup')
 Route.post('/login', 'UserController.login').as('login')
 Route.get('/logout', 'UserController.logout').middleware('checkUser').as('logout')
@@ -33,6 +28,7 @@ Route.get('/profile', 'UserController.profile').middleware('checkUser').as('prof
 /**
  * Post content
  */
+Route.get('/', 'CategoryController.index').as('home')
 Route.get('/categories', 'CategoryController.index').as('categories')
 Route.get('/category/:id', 'CategoryController.view').as('category')
 

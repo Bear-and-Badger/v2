@@ -51,10 +51,10 @@ class UserController {
 
       response.redirect('back')
     } else {
-      const userRole = await Role.query().where('name', '=', 'User').fetch()
+      const userRole = await Role.query().where('name', 'User')
       const user = await User.create(data)
 
-      user.roles().save(userRole)
+      user.role().associate(userRole[0])
 
       await auth.attempt(data.email, data.password)
 

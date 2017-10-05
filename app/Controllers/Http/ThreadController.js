@@ -13,28 +13,28 @@ class ThreadController {
 
     const threads = await Thread.query()
         .with('category')
-        .with('owner')
+        .with('user')
         .orderBy('updated_at', 'desc')
         .paginate(page, 5)
 
     return view.render('thread.index', threads.toJSON())
   }
 
-  async view ({view, params}) {
+  async view ({view, params, auth}) {
     const page = params.page ? parseInt(params.page, 10) : 1
 
     const thread = await Thread.find(params.id)
-    const owner = await thread.owner()
+    const owner = await thread.user().fetch()
 
     const posts = await Post.query()
-        .with('owner')
+        .with('user')
         .where('thread_id', '=', thread.id)
         .orderBy('created_at', 'asc')
         .paginate(page, 2)
 
     return view.render('thread.view', {
       thread: thread.toJSON(),
-      owner: owner[0],
+      owner: owner.toJSON(),
       posts: posts.toJSON()
     })
   }

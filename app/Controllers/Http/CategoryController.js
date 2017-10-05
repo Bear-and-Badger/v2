@@ -2,9 +2,10 @@
 
 const ModelUtil = use('App/Helpers/ModelUtil')
 const Category = use('App/Models/Category')
+const Thread = use('App/Models/Thread')
 
 class CategoryController {
-  async index ({response, view}) {
+  async index ({view}) {
     const categories = await Category.all()
 
     return view.render('category.index', {
@@ -12,18 +13,17 @@ class CategoryController {
     })
   }
 
-  async view ({request, response, view}) {
-    const page = parseInt(request.param('page', 1), 10)
-    const slug = request.param('id')
-
-    const category = await Category.findBy('slug', slug)
+  async view ({request, params, response, view}) {
+    const category = await Category.findBy('slug', params.id)
 
     if (category) {
-      const threads = await category.threads()
-                                    .with('category')
-                                    .with('owner')
-                                    .orderBy('updated_at', 'desc')
-                                    .paginate(page, 5)
+      const page = parseInt(request.input('page', 1), 10)
+      const threads = await Thread.query()
+                                  .with('category')
+                                  .with('user')
+                                  .where('category_id', category.id)
+                                  .orderBy('updated_at', 'desc')
+                                  .paginate(page, 5)
 
       return view.render('category.view', {
         category: category.toJSON(),

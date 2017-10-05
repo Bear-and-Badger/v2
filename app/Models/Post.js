@@ -4,11 +4,11 @@ const Model = use('Model')
 
 class Post extends Model {
     thread () {
-        return this.belongsTo('App/Models/Thread', 'id')
+        return this.belongsTo('App/Models/Thread')
     }
 
-    owner () {
-        return this.belongsTo('App/Models/User', 'id')
+    user () {
+        return this.belongsTo('App/Models/User')
     }
 }
 
