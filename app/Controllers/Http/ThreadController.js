@@ -3,9 +3,13 @@
 const ModelUtil = use('App/Helpers/ModelUtil')
 const ViewUtil = use('App/Helpers/ViewUtil')
 
-const Category = use('App/Models/Category')
 const Thread = use('App/Models/Thread')
 const Post = use('App/Models/Post')
+
+async function getCategoryIds (role) {
+  const categories = await role.categories().fetch()
+  return categories.toJSON().map((category) => { return category.id })
+}
 
 class ThreadController {
   async index ({request, view}) {
@@ -14,17 +18,25 @@ class ThreadController {
     const threads = await Thread.query()
         .with('category')
         .with('user')
+        .whereIn('category_id', await getCategoryIds(request.currentRole))
         .orderBy('updated_at', 'desc')
         .paginate(page, 5)
 
     return view.render('thread.index', threads.toJSON())
   }
 
-  async view ({view, params, auth}) {
-    const page = params.page ? parseInt(params.page, 10) : 1
+  async view ({view, params, request, response}) {
+    const thread = await Thread.query()
+        .where('id', params.id)
+        .whereIn('category_id', await getCategoryIds(request.currentRole))
+        .with('user')
+        .first()
 
-    const thread = await Thread.find(params.id)
-    const owner = await thread.user().fetch()
+    if (!thread) {
+      return response.route('404', 404)
+    }
+
+    const page = parseInt((params.page || 1), 10)
 
     const posts = await Post.query()
         .with('user')
@@ -34,26 +46,33 @@ class ThreadController {
 
     return view.render('thread.view', {
       thread: thread.toJSON(),
-      owner: owner.toJSON(),
       posts: posts.toJSON()
     })
   }
 
-  async new ({view}) {
-    const categories = await Category.all()
+  async new ({request, view}) {
+    const categories = await request.currentRole.categories().fetch()
 
     return view.render('thread.edit', {
       categories: ViewUtil.objectToSelectOptions(categories.toJSON(), 'id', 'name')
     })
   }
 
-  async edit ({params, view}) {
-    const thread = await Thread.find(params.id)
-    const categories = await Category.all()
+  async edit ({request, params, view, response}) {
+    const categories = await request.currentRole.categories().fetch()
+
+    const thread = await Thread.query()
+        .where('id', params.id)
+        .whereIn('category_id', await getCategoryIds(request.currentRole))
+        .fetch()
+
+    if (!thread) {
+      return response.route('404', 404)
+    }
 
     return view.render('thread.edit', {
       categories: ViewUtil.objectToSelectOptions(categories.toJSON(), 'id', 'name'),
-      thread: thread ? thread.toJSON() : null
+      thread: thread.toJSON()
     })
   }
 

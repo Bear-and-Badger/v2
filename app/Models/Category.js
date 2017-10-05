@@ -3,20 +3,24 @@
 const Model = use('Model')
 
 class Category extends Model {
-    static get rules() {
-        return {
-            name : 'required|max:120|unique:categories'
-        };
+  static get rules () {
+    return {
+      name: 'required|max:120|unique:categories'
     }
+  }
 
-    static boot() {
-        super.boot();
-        this.addHook('beforeCreate', 'Category.createSlug');
-    }
+  static boot () {
+    super.boot()
+    this.addHook('beforeCreate', 'Category.createSlug')
+  }
 
-    threads() {
-        return this.hasMany('App/Models/Thread');
-    }
+  threads () {
+    return this.hasMany('App/Models/Thread')
+  }
+
+  roles () {
+    return this.belongsToMany('App/Models/Role')
+  }
 }
 
 module.exports = Category

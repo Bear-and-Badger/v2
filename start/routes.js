@@ -15,6 +15,8 @@
 
 const Route = use('Route')
 
+Route.on('/404').render('errors.404').as('404')
+
 /**
  * User profile pages
  */

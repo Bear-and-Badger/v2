@@ -2,11 +2,11 @@
 @section('content')
     {{linkTo('discussions', 'Back to discussions')}}
     <h2>{{thread.title}}</h2>
-    <h5>{{owner.name}}</h5>
+    <h5>{{thread.user.name}}</h5>
 
     {{bbcode(thread.content)}}
 
-    @if( hasPermission('edit', 'thread', thread.user_id))
+    @if( hasPermission('edit', 'thread', thread.user.id))
     {{linkTo('edit_discussion', 'Edit discussion', { id : thread.id }) }}
     @endif
 

@@ -9,7 +9,7 @@ class UserController {
   async logout ({auth, response}) {
     await auth.logout()
 
-    response.redirect('home')
+    response.route('home')
   }
 
   async login ({request, response, auth, session}) {
@@ -59,7 +59,7 @@ class UserController {
 
       await auth.attempt(data.email, data.password)
 
-      response.redirect('home')
+      response.route('home')
     }
   }
 

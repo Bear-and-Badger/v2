@@ -14,6 +14,10 @@ class Thread extends Model {
   posts () {
     return this.hasMany('App/Models/Post')
   }
+
+  roles () {
+    return this.manyThrough('App/Models/Role', 'categories')
+  }
 }
 
 module.exports = Thread

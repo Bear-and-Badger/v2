@@ -10,6 +10,14 @@ class Role extends Model {
     permissions () {
         return this.hasMany('App/Models/Permission')
     }
+
+    categories () {
+        return this.belongsToMany('App/Models/Category')
+    }
+
+    threads () {
+        return this.manyThrough('App/Models/Category', 'threads')
+    }
 }
 
 module.exports = Role
