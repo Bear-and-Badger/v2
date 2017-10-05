@@ -14,7 +14,7 @@
       </li>
       @if(currentUser)
       <li class="nav-item">
-        <a class="nav-link" href="{{ route('profile') }}">{{ currentUser.name }}</a>
+        <a class="nav-link" href="{{ route('self') }}">{{ currentUser.name }}</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{{ route('logout') }}">Logout</a>

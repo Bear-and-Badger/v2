@@ -11,8 +11,8 @@
        <div class="post">
            <h5>{{linkTo('discussion', thread.title, { id : thread.id }) }} ({{thread.category.name}})</h5>
            <h6>
-           @if(thread.owner)
-           {{ thread.owner.name }}
+           @if(thread.user)
+           {{ linkTo('profile', thread.user.name, { id : thread.user.id }) }}
            @else
            Deleted user
            @endif

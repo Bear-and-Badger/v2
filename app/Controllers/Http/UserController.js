@@ -3,12 +3,13 @@
 const Validator = use('Validator')
 const User = use('App/Models/User')
 const Role = use('App/Models/Role')
+const Post = use('App/Models/Post')
 
 class UserController {
   async logout ({auth, response}) {
     await auth.logout()
 
-    response.redirect('/')
+    response.redirect('home')
   }
 
   async login ({request, response, auth, session}) {
@@ -58,15 +59,30 @@ class UserController {
 
       await auth.attempt(data.email, data.password)
 
-      response.redirect('profile')
+      response.redirect('home')
     }
   }
 
-  async profile ({auth, view}) {
-    const user = await auth.user
+  async profile ({request, params, auth, view}) {
+    let user
+
+    if (params.id) {
+      user = await User.find(params.id)
+    } else {
+      user = auth.user
+    }
+
+    const page = parseInt((params.page || 1))
+
+    const posts = await Post.query()
+        .with('thread')
+        .where('user_id', user.id)
+        .orderBy('created_at', 'desc')
+        .paginate(page, 2)
 
     return view.render('user.profile', {
-      user: user
+      user: user.toJSON(),
+      posts: posts.toJSON()
     })
   }
 }

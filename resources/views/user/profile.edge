@@ -3,4 +3,16 @@
 @section('content')
     <h2>{{ user.name }}</h2>
     <h4>Email: {{ user.email }}</h4>
+
+    @!component('lib.paginator', link = 'profile', id = user.id, max = posts.lastPage, curr = posts.page)
+    <ul>
+    @each(post in posts.data)
+       <li>
+         <h5>{{linkTo('discussion', post.thread.title, { id : post.thread.id }) }}</h5>:
+         {{post.content}}
+       </li>
+    @else
+       No posts
+    @endeach
+    </ul>
 @endsection

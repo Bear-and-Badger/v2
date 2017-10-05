@@ -23,7 +23,8 @@ Route.on('/signup').render('user.signup')
 Route.post('/signup', 'UserController.signup').as('signup')
 Route.post('/login', 'UserController.login').as('login')
 Route.get('/logout', 'UserController.logout').middleware('checkUser').as('logout')
-Route.get('/profile', 'UserController.profile').middleware('checkUser').as('profile')
+Route.get('/profile/me/:page?', 'UserController.profile').middleware('checkUser').as('self')
+Route.get('/profile/:id/:page?', 'UserController.profile').as('profile')
 
 /**
  * Post content
