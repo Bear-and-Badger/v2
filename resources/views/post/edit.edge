@@ -28,7 +28,7 @@
 
   <fieldset class="form-group">
   <label for="title">Content</label>
-  <input type="text" name="content" value="{{ old('content', post.content) }}" class="form-control" />
+  <textarea id="editor" name="content" class="form-control">{{ old('content', post.content) }}</textarea>
   </fieldset>
 
   <input type="submit" value="Post" class="btn btn-primary btn-block"></input>

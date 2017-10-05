@@ -35,7 +35,7 @@
 
   <fieldset class="form-group">
   <label for="title">Content</label>
-  <input type="text" name="content" value="{{ old('content', thread.content) }}" class="form-control" />
+  <textarea id="editor" name="content" class="form-control" >{{ old('content', thread.content) }}</textarea>
   </fieldset>
 
   <input type="submit" value="Save" class="btn btn-primary btn-block"></input>

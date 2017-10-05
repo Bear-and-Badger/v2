@@ -4,7 +4,7 @@
     <h2>{{thread.title}}</h2>
     <h5>{{owner.name}}</h5>
 
-    <p>{{thread.content}}
+    {{bbcode(thread.content)}}
 
     @if( hasPermission('edit', 'thread', thread.user_id))
     {{linkTo('edit_discussion', 'Edit discussion', { id : thread.id }) }}
@@ -14,7 +14,8 @@
     <ul>
     @each(post in posts.data)
        <li>
-         <h5>{{ linkTo('profile', post.user.name, { id : post.user.id }) }}</h5>: {{post.content}}
+         <h5>{{ linkTo('profile', post.user.name, { id : post.user.id }) }}</h5>
+         {{bbcode(post.content)}}
 
          @if( hasPermission('edit', 'post', post.user.id))
          {{linkTo('edit_post', 'Edit post', { id : post.id }) }}

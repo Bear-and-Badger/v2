@@ -8,8 +8,8 @@
     <ul>
     @each(post in posts.data)
        <li>
-         <h5>{{linkTo('discussion', post.thread.title, { id : post.thread.id }) }}</h5>:
-         {{post.content}}
+         <h5>{{linkTo('discussion', post.thread.title, { id : post.thread.id }) }}</h5>
+         {{bbcode(post.content)}}
        </li>
     @else
        No posts

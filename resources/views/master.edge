@@ -6,6 +6,10 @@
   <title>The Bear and Badger</title>
   <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,200,300,600,700,900' rel='stylesheet' type='text/css'>
   {{ css('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css') }}
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="http://cdn.wysibb.com/js/jquery.wysibb.min.js"></script>
+  <link rel="stylesheet" href="http://cdn.wysibb.com/css/default/wbbtheme.css" />
 </head>
 <body>
   <div class="container">
@@ -19,5 +23,17 @@
           @!section('content')
       </section>
   </div>
+
+  <script>
+  var opts = {
+      buttons : "bold,italic,underline,|,img,link,|,fontcolor,fontsize,|,justifyleft,justifycenter,justifyright,|,quote,table,code"
+  }
+
+
+  $(function() {
+    $("#editor").wysibb(opts);
+  })
+  </script>
+  </head>
 </body>
 </html>
