@@ -6,11 +6,6 @@ const ViewUtil = use('App/Helpers/ViewUtil')
 const Thread = use('App/Models/Thread')
 const Post = use('App/Models/Post')
 
-async function getCategoryIds (role) {
-  const categories = await role.categories().fetch()
-  return categories.toJSON().map((category) => { return category.id })
-}
-
 class ThreadController {
   async index ({request, view}) {
     const page = parseInt(request.input('page', 1), 10)
@@ -18,7 +13,7 @@ class ThreadController {
     const threads = await Thread.query()
         .with('category')
         .with('user')
-        .whereIn('category_id', await getCategoryIds(request.currentRole))
+        .whereIn('category_id', await request.permissions.getCategoryIds())
         .orderBy('updated_at', 'desc')
         .paginate(page, 5)
 
@@ -28,7 +23,7 @@ class ThreadController {
   async view ({view, params, request, response}) {
     const thread = await Thread.query()
         .where('id', params.id)
-        .whereIn('category_id', await getCategoryIds(request.currentRole))
+        .whereIn('category_id', await request.permissions.getCategoryIds())
         .with('user')
         .first()
 
@@ -51,7 +46,7 @@ class ThreadController {
   }
 
   async new ({request, view}) {
-    const categories = await request.currentRole.categories().fetch()
+    const categories = await request.permissions.getCategories()
 
     return view.render('thread.edit', {
       categories: ViewUtil.objectToSelectOptions(categories.toJSON(), 'id', 'name')
@@ -59,13 +54,13 @@ class ThreadController {
   }
 
   async edit ({request, params, view, response}) {
-    const categories = await request.currentRole.categories().fetch()
+    const categories = await request.permissions.getCategories()
 
     const thread = await Thread.query()
         .where('id', params.id)
-        .whereIn('category_id', await getCategoryIds(request.currentRole))
-        .fetch()
-
+        .whereIn('category_id', await request.permissions.getCategoryIds())
+        .first()
+      
     if (!thread) {
       return response.route('404', 404)
     }

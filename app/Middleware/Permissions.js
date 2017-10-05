@@ -8,6 +8,21 @@ const DEFAULT_RESPONSE = function () {
   return false
 }
 
+class PermissionContext {
+  constructor (role) {
+    this.role = role
+  }
+
+  async getCategories () {
+    return this.role.categories().fetch()
+  }
+
+  async getCategoryIds () {
+    const categories = await this.getCategories()
+    return categories.toJSON().map((category) => { return category.id })
+  }
+}
+
 class Permissions {
   async handle ({request, auth}, next) {
     try {
@@ -17,12 +32,12 @@ class Permissions {
       View.global('hasPermission', checker)
       View.global('currentUser', user)
 
-      request.currentRole = await user.role().fetch()
+      request.permissions = new PermissionContext(await user.role().fetch())
     } catch (e) {
       View.global('currentUser', undefined)
       View.global('hasPermission', DEFAULT_RESPONSE)
 
-      request.currentRole = await Role.findBy('name', 'Visitor')
+      request.permissions = new PermissionContext(await Role.findBy('name', 'Visitor'))
     }
 
     return next()
