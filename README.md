@@ -1,31 +1,43 @@
-# Adonis fullstack application
+# Bear and Badger V2
 
-This is the fullstack boilerplate for AdonisJs, it comes pre-configured with.
+This is a rewrite of the original Bear and Badger forum, based on [AdonisJS](https://adonisjs.com/) with an aim for simplicity & speed.
 
-1. Bodyparser
-2. Session
-3. Authentication
-4. Web security middleware
-5. CORS
-6. Edge template engine
-7. Lucid ORM
-8. Migrations and seeds
+System requirements:
+
+1. NodeJs >= 8.x
+2. NPM >= 3.x
+3. MySQL
 
 ## Setup
 
-Use the adonis command to install the blueprint
+1. Clone this repository and `cd` into the root directory.
+
+2. Install JS dependencies and the Adonis command line interface
 
 ```bash
-adonis new yardstick
+npm install
+npm install -g @adonisjs/cli
 ```
 
-or manually clone the repo and then run `npm install`.
+3. Configure `.env` to use appropriate database settings for your MySQL installation
 
+4. Run database migrations and import initial seed data
 
-### Migrations
-
-Run the following command to run startup migrations.
-
-```js
+```bash
 adonis migration:run
+adonis seed
 ```
+
+5. Fire up the Adonis dev server
+
+```bash
+adonis serve --dev
+```
+
+You should now be able to navigate to the site at `http://localhost:3333/`. Hurrah! Go ahead and signup as a new user to test out all of the functionality.
+
+### Development
+
+Devlopment of this is relatively adhoc. Tickets should be created for all major features. Pull requests will need to be reviewed before being accepted. 
+
+Testing is currently AWOL but will become mandatory as soon as is feasible
