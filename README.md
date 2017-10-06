@@ -19,7 +19,7 @@ npm install
 npm install -g @adonisjs/cli
 ```
 
-3. Configure `.env` to use appropriate database settings for your MySQL installation
+3. Copy `.env.example` to `.env`, and configure to use appropriate database settings for your MySQL installation.
 
 4. Run database migrations and import initial seed data
 
