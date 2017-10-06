@@ -1,11 +1,23 @@
-<h6>Page {{curr}} of {{max}}</h6>
-<nav aria-label="Page navigation example">
-  <ul class="pagination">
-    @if(curr > 1)
-      <li class="page-item">{{linkTo(link, 'Prev', { page : curr - 1, id : id }) }}</li>
+<ul class="pagination">
+@if(last > 9)
+    <li class="page-item">{{linkTo(link, '1', { page : 1, id : id }) }}</li>
+
+    @if(curr > 2)
+    <li class="paginator-item paginator-spacer">...</li>
     @endif
-    @if(curr < max)
-      <li class="page-item">{{linkTo(link, 'Next', { page : curr + 1, id : id }) }}</li>
+
+    @each(number in range(max(curr - 2, 2), min(curr + 3, last)))
+        <li class="page-item">{{linkTo(link, number, { page : number, id : id }) }}</li>
+    @endeach
+
+    @if(curr < last - 1)
+    <li class="paginator-item paginator-spacer">...</li>
     @endif
-  </ul>
-</nav>
+
+    <li class="page-item">{{linkTo(link, last, { page : last, id : id }) }}</li>
+@else
+    @each(number in range(1, last + 1))
+        <li class="page-item">{{linkTo(link, number, { page : number, id : id }) }}</li>
+    @endeach
+@endif
+</ul>

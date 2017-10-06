@@ -2,30 +2,26 @@
 @section('content')
     {{linkTo('discussions', 'Back to discussions')}}
     <h2>{{thread.title}}</h2>
-    <h5>{{thread.user.name}}</h5>
 
-    {{bbcode(thread.content)}}
+    @!component('lib.paginator', link = 'discussion', id = thread.id, last = posts.lastPage, curr = posts.page)
+
+    @!component('lib.post', el = 'div', post = thread)
 
     @if( hasPermission('edit', 'thread', thread.user.id))
     {{linkTo('edit_discussion', 'Edit discussion', { id : thread.id }) }}
     @endif
 
-    @!component('lib.paginator', link = 'discussion', id = thread.id, max = posts.lastPage, curr = posts.page)
-    <ul>
-    @each(post in posts.data)
-       <li>
-         <h5>{{ linkTo('profile', post.user.name, { id : post.user.id }) }}</h5>
-         <h6>{{ linkTo('new_chat', 'PM', { recipient : post.user.name }) }}</h6>
-         {{bbcode(post.content)}}
-
-         @if( hasPermission('edit', 'post', post.user.id))
-         {{linkTo('edit_post', 'Edit post', { id : post.id }) }}
-         @endif
-       </li>
+    @if(posts.data.length)
+        <ul class="posts">
+        @each(post in posts.data)
+            @!component('lib.post', el = 'li', post = post, showEdit = true)
+        @endeach
+        </ul>
     @else
-       No posts
-    @endeach
-    </ul>
+        <strong>No posts</strong>
+    @endif
+
+    @!component('lib.paginator', link = 'discussion', id = thread.id, last = posts.lastPage, curr = posts.page)
 
     {{linkTo('new_post', 'New post', { thread : thread.id }) }}
 @endsection

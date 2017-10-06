@@ -5,7 +5,7 @@
    <p>
        <h4>{{linkTo('new_discussion', 'New discussion')}}</h4>
    </p>
-   @!component('lib.paginator', link = 'discussions', max = lastPage, curr = page)
+   @!component('lib.paginator', link = 'discussions', last = lastPage, curr = page)
    <div class="discussions-wrapper">
    @each(thread in data)
        <div class="post">

@@ -1,0 +1,20 @@
+<{{el}} class="post container">
+    <div class="row">
+        <div class="col-sm-4">
+            <h5>{{ linkTo('profile', post.user.name, { id : post.user.id }) }}</h5>
+            <h6>{{ linkTo('new_chat', 'PM', { recipient : post.user.name }) }}</h6>
+        </div>
+        <div class="col">
+            {{bbcode(post.content)}}
+        </div>
+    </div>
+    @if(showEdit)
+    <div class="row">
+        <div class="col">
+            @if( hasPermission('edit', 'post', post.user.id))
+            {{linkTo('edit_post', 'Edit post', { id : post.id }) }}
+            @endif
+        </div>
+    </div>
+    @endif
+</{{el}}>

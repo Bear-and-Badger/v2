@@ -31,4 +31,7 @@ hooks.after.providersBooted(() => {
   View.global('bbcode', function (content) {
     return this.safe(bbcodeFilter(content || '').replace(/(?:\r\n|\r|\n)/g, '<br />'))
   })
+
+  View.global('min', Math.min)
+  View.global('max', Math.max)
 })
