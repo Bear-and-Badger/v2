@@ -1,0 +1,40 @@
+@layout('master')
+@section('content')
+
+<nav>
+  <ul class="pagination">
+      <li class="page-item"><a href="{{route('search', { id : 'discussions' })}}?query={{query}}">Discussions</a></li>
+      <li class="page-item"><a href="{{route('search', { id : 'posts' })}}?query={{query}}">Posts</a></li>
+      <li class="page-item"><a href="{{route('search', { id : 'users' })}}?query={{query}}">Users</a></li>
+  </ul>
+</nav>
+@if(results.data.length)
+    <h1>{{type}} found for: '{{query}}'</h1>
+
+    <ul>
+    @each(item in results.data)
+        <li>
+        @if(type === 'discussions')
+        <h4>{{ linkTo('discussion', item.title, { id : item.id }) }}</h4>
+        {{bbcode(item.content)}}
+        @endif
+
+        @if(type === 'posts')
+        <h4>{{ linkTo('discussion', item.thread.title, { id : item.thread.id }) }}</h4>
+        {{bbcode(item.content)}}
+        @endif
+
+        @if(type === 'users')
+        <h4>{{ linkTo('profile', item.name, { id : item.id }) }}</h4>
+        @endif
+        </li>
+    @endeach
+    </ul>
+
+    @!component('lib.paginator', link = 'search', id = type, curr = results.page, max = results.lastPage)
+@else
+    <h1>No {{type}} found for: '{{query}}'</h1>
+@endif
+
+
+@endsection

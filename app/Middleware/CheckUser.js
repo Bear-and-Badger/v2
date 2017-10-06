@@ -6,7 +6,7 @@ class CheckUser {
       await auth.check()
       return next()
     } catch (e) {
-      session.put('prev', request.originalUrl())
+      //session.put('prev', request.originalUrl())
       response.redirect('/login')
     }
   }

@@ -36,6 +36,8 @@ Route.get('/category/:id', 'CategoryController.view').as('category')
 Route.get('/discussions/:page?', 'ThreadController.index').as('discussions')
 Route.get('/discussion/:id/:page?', 'ThreadController.view').as('discussion')
 
+Route.get('/search/:id/:page?', 'SearchController.search').as('search')
+
 /**
  * Creating / editing posts & threads
  */
