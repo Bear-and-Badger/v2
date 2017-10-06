@@ -1,6 +1,7 @@
 'use strict'
 
 const Validator = use('Validator')
+
 const User = use('App/Models/User')
 const Role = use('App/Models/Role')
 const Post = use('App/Models/Post')
@@ -63,7 +64,7 @@ class UserController {
     }
   }
 
-  async profile ({request, params, auth, view}) {
+  async profile ({params, auth, view}) {
     let user
 
     if (params.id) {

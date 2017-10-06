@@ -1,0 +1,20 @@
+@layout('master')
+@section('content')
+<form method="POST" action="{{ route('save_chat') }}">
+    {{csrfField()}}
+
+    <input type="hidden" name="chat_id" value="{{chat.id}}" />
+
+    <label for="recipients">Recipients:</label>
+    @if(recipient)
+    <input type="text" name="recipients" value="{{recipient.name}}" />
+    @else
+    <input type="text" name="recipients" value="" />
+    @endif
+<br />
+    <label for="content">Send message:</label>
+    <textarea id="editor" name="content">{{ old('content', '') }}</textarea>
+    <br />
+    <input type="submit" value="Reply" class="btn btn-primary btn-block"></input>
+@endsection
+@endsection

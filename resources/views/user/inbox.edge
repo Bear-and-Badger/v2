@@ -1,0 +1,14 @@
+@layout('master')
+@section('content')
+
+<h2>Inbox ({{chats.length}})</h2>
+<ul>
+@each(chat in chats)
+<li>
+    <strong>From:</strong> {{ linkTo('profile', chat.user.name, { id : chat.user.id }) }}
+    <br />
+    <a class="button" href="{{ route('chat', { id : chat.id }) }}">Read</a>
+</li>
+@endeach
+</ul>
+@endsection

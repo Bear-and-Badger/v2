@@ -15,6 +15,7 @@
     @each(post in posts.data)
        <li>
          <h5>{{ linkTo('profile', post.user.name, { id : post.user.id }) }}</h5>
+         <h6>{{ linkTo('new_chat', 'PM', { recipient : post.user.name }) }}</h6>
          {{bbcode(post.content)}}
 
          @if( hasPermission('edit', 'post', post.user.id))

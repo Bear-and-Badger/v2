@@ -24,8 +24,6 @@ Route.on('/login').render('user.login')
 Route.on('/signup').render('user.signup')
 Route.post('/signup', 'UserController.signup').as('signup')
 Route.post('/login', 'UserController.login').as('login')
-Route.get('/logout', 'UserController.logout').middleware('checkUser').as('logout')
-Route.get('/profile/me/:page?', 'UserController.profile').middleware('checkUser').as('self')
 Route.get('/profile/:id/:page?', 'UserController.profile').as('profile')
 
 /**
@@ -49,6 +47,19 @@ Route.group('authorised', function () {
   Route.get('/new/discussion', 'ThreadController.new').as('new_discussion')
   Route.get('/edit/discussion/:id', 'ThreadController.edit').as('edit_discussion')
   Route.post('/save/discussion', 'ThreadController.save')
+}).middleware('checkUser')
+
+/**
+ * Creating / editing profile & inbox
+ */
+Route.group('profile', function () {
+  Route.get('/logout', 'UserController.logout').as('logout')
+  Route.get('/profile/me/:page?', 'UserController.profile').as('self')
+  Route.get('/messages', 'ChatController.inbox').as('inbox')
+  Route.get('/messages/new/:recipient?', 'ChatController.create').as('new_chat')
+  Route.post('/messages/new', 'ChatController.store').as('save_chat')
+  Route.post('/messages/reply', 'ChatController.reply').as('reply')
+  Route.get('/messages/view/:id', 'ChatController.chat').as('chat')
 }).middleware('checkUser')
 
 /**

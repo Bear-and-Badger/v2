@@ -1,0 +1,41 @@
+@layout('master')
+@section('content')
+
+<h2>Chat ({{chat.messages.length}} messages)</h2>
+
+<ul>
+@each(user in chat.users)
+<li>
+    <em>{{ linkTo('profile', user.name, { id : user.id }) }}</em>
+</li>
+@endeach
+</ul>
+
+<ul>
+@each(message in chat.messages)
+<li>
+    <strong>From:</strong> {{ linkTo('profile', message.user.name, { id : message.user.id }) }}
+    <br />
+    {{bbcode(message.content)}}
+</li>
+@endeach
+</ul>
+<br />
+
+  @if(old('errors'))
+  <div class="alert alert-danger">
+  @each(error in old('errors'))
+  <li> {{error.message}}</li>
+  @endeach
+  </div>
+  @endif
+<form method="POST" action="{{ route('reply') }}">
+    {{csrfField()}}
+
+    <input type="hidden" name="chat_id" value="{{chat.id}}" />
+
+    <label for="content">Reply:</label>
+    <textarea id="editor" name="content">{{ old('content', '') }}</textarea>
+    <br />
+    <input type="submit" value="Reply" class="btn btn-primary btn-block"></input>
+@endsection
