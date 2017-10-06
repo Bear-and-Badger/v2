@@ -40,4 +40,6 @@ You should now be able to navigate to the site at `http://localhost:3333/`. Hurr
 
 Devlopment of this is relatively adhoc. Tickets should be created for all major features. Pull requests will need to be reviewed before being accepted. 
 
+The core framework is AdonisJS 4.0. This is currently a 'dev' release (although the API is stable). Documentation can be found at [http://dev.adonisjs.com/docs/4.0/](http://dev.adonisjs.com/docs/4.0/) 
+
 Testing is currently AWOL but will become mandatory as soon as is feasible
