@@ -1,27 +1,38 @@
 @layout('master')
 @section('content')
-    {{linkTo('discussions', 'Back to discussions')}}
-    <h2>{{thread.title}}</h2>
+    <div class="container">
+        <div class="row thread-header">
+            <div class="col-lg-8 col-sm-12">
+                <h1 class="thread-title">{{thread.title}}</h1>
+            </div>
+            <div class="col thread-category text-right align-middle">
+                {{ linkTo('category', thread.category.name, { id : thread.category.id }) }}
+            </div>
+        </div>
+        <div class="row thread-content">
+            <div class="col">
+                @!component('lib.paginator', link = 'discussion', id = thread.id, last = posts.lastPage, curr = posts.page)
 
-    @!component('lib.paginator', link = 'discussion', id = thread.id, last = posts.lastPage, curr = posts.page)
+                @!component('lib.post', el = 'div', post = thread)
 
-    @!component('lib.post', el = 'div', post = thread)
+                @if( hasPermission('edit', 'thread', thread.user.id))
+                {{linkTo('edit_discussion', 'Edit discussion', { id : thread.id }) }}
+                @endif
 
-    @if( hasPermission('edit', 'thread', thread.user.id))
-    {{linkTo('edit_discussion', 'Edit discussion', { id : thread.id }) }}
-    @endif
+                @if(posts.data.length)
+                    <ul class="posts">
+                    @each(post in posts.data)
+                        @!component('lib.post', el = 'li', post = post, showEdit = true, $loop = $loop)
+                    @endeach
+                    </ul>
+                @else
+                    <strong>No posts</strong>
+                @endif
 
-    @if(posts.data.length)
-        <ul class="posts">
-        @each(post in posts.data)
-            @!component('lib.post', el = 'li', post = post, showEdit = true)
-        @endeach
-        </ul>
-    @else
-        <strong>No posts</strong>
-    @endif
+                @!component('lib.paginator', link = 'discussion', id = thread.id, last = posts.lastPage, curr = posts.page)
 
-    @!component('lib.paginator', link = 'discussion', id = thread.id, last = posts.lastPage, curr = posts.page)
-
-    {{linkTo('new_post', 'New post', { thread : thread.id }) }}
+                {{linkTo('new_post', 'New post', { thread : thread.id }) }}
+            </div>
+        </div>
+    </div>
 @endsection

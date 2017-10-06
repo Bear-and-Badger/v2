@@ -1,20 +1,34 @@
+@if($loop && $loop.isOdd)
+<{{el}} class="post post-alt container">
+@else
 <{{el}} class="post container">
+@endif
     <div class="row">
         <div class="col-sm-4 col-lg-2">
+            <strong class="user-name">{{ linkTo('profile', post.user.name, { id : post.user.id }) }}</strong>
+        </div>
+        <div class="col-sm-2 col-lg-6"></div>
+        <div class="col-sm-6 col-lg-4">
+            <div class="post-metadata text-right">
+                <span class="post-date">{{upperFirst(post.updated_at)}}</span>
+
+                @if(showEdit)
+                    @if(hasPermission('edit', 'post', post.user.id))
+                    <span class="post-action">{{linkTo('edit_post', 'Edit', { id : post.id }) }}</span>
+                    @endif
+                @endif
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        @if(!hideUser)
+        <div class="col-sm-4 col-lg-2 user-details">
             <h5>{{ linkTo('profile', post.user.name, { id : post.user.id }) }}</h5>
             <h6>{{ linkTo('new_chat', 'PM', { recipient : post.user.name }) }}</h6>
         </div>
-        <div class="col">
+        @endif
+        <div class="col post-content">
             {{bbcode(post.content)}}
         </div>
     </div>
-    @if(showEdit)
-    <div class="row">
-        <div class="col">
-            @if( hasPermission('edit', 'post', post.user.id))
-            {{linkTo('edit_post', 'Edit post', { id : post.id }) }}
-            @endif
-        </div>
-    </div>
-    @endif
 </{{el}}>

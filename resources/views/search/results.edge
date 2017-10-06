@@ -16,12 +16,12 @@
         <li>
         @if(type === 'discussions')
         <h4>{{ linkTo('discussion', item.title, { id : item.id }) }}</h4>
-        {{bbcode(item.content)}}
+        @!component('lib.post', el = 'div', post = item, hideUser = true, $loop = $loop)
         @endif
 
         @if(type === 'posts')
         <h4>{{ linkTo('discussion', item.thread.title, { id : item.thread.id }) }}</h4>
-        {{bbcode(item.content)}}
+        @!component('lib.post', el = 'div', post = item, hideUser = true, $loop = $loop)
         @endif
 
         @if(type === 'users')

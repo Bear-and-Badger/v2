@@ -15,7 +15,7 @@ class ThreadController {
         .with('user')
         .whereIn('category_id', await request.permissions.getCategoryIds())
         .orderBy('updated_at', 'desc')
-        .paginate(page, 5)
+        .paginate(page, 15)
 
     return view.render('thread.index', threads.toJSON())
   }
@@ -24,6 +24,7 @@ class ThreadController {
     const thread = await Thread.query()
         .where('id', params.id)
         .whereIn('category_id', await request.permissions.getCategoryIds())
+        .with('category')
         .with('user')
         .first()
 
@@ -37,7 +38,7 @@ class ThreadController {
         .with('user')
         .where('thread_id', '=', thread.id)
         .orderBy('created_at', 'asc')
-        .paginate(page, 2)
+        .paginate(page, 15)
 
     return view.render('thread.view', {
       thread: thread.toJSON(),
@@ -60,7 +61,7 @@ class ThreadController {
         .where('id', params.id)
         .whereIn('category_id', await request.permissions.getCategoryIds())
         .first()
-      
+
     if (!thread) {
       return response.route('404', 404)
     }

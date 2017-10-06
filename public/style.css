@@ -1,3 +1,26 @@
+a {
+    transition: color 1s;
+    text-decoration: none;
+    color: #990134;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #db0e53;
+}
+
+.thread-header {
+    padding-top: 20px;
+}
+
+.thread-header .thread-title {
+
+}
+
+.thread-header .thread-category a {
+    display: inline-block;
+    font-weight: bold;
+}
 
 .posts {
     margin: 0;
@@ -5,11 +28,62 @@
 }
 
 .post {
-    background-color: #f7f7f7;
     list-style: none;
     border: none;
     margin-bottom: 10px;
     padding: 10px
 }
 
+.post-alt {
+    background-color: #fbfbfb;
+}
 
+.post-metadata {
+    font-size: 0.8em;
+}
+
+.post-metadata .post-date {
+    color: #888;
+}
+
+.post-metadata .post-action {
+    padding-left: 6px;
+    margin-left: 6px;
+    border-left: 1px solid #ccc;
+}
+
+.post-content {
+    font-family: 'Vollkorn', serif;
+    letter-spacing: 0.03em;
+    line-height: 1.6em;
+    padding-top: 10px;
+}
+
+.post-content a {
+    text-decoration: underline;
+}
+
+.post-content a:hover {
+    text-decoration: underline;
+}
+
+.post-content img {
+    max-width: 100%;
+}
+
+.user-name {
+    font-size: 0.9em;
+}
+
+.user-name a {
+    color: #888;
+    text-decoration: none;
+}
+
+.user-name a:hover {
+    color: #333;
+}
+
+.user-details a {
+    font-size: 0.8em;
+}

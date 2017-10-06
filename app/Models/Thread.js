@@ -18,6 +18,14 @@ class Thread extends Model {
   roles () {
     return this.manyThrough('App/Models/Role', 'categories')
   }
+
+  static castDates (field, value) {
+    if (field === 'updated_at') {
+      return `${value.fromNow(true)} ago`
+    }
+
+    return super.castDates(field, value)
+  }
 }
 
 module.exports = Thread
