@@ -27,6 +27,8 @@ class SearchController {
                 .innerJoin('threads', 'thread_id', 'threads.id')
                 .whereIn('threads.category_id', await request.permissions.getCategoryIds())
                 .with('thread')
+                .with('user')
+                .select('posts.*')
                 .paginate(page, 10)
 
         results = posts.toJSON()
