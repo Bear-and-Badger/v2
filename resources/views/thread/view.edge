@@ -9,10 +9,13 @@
                 {{ linkTo('category', thread.category.name, { id : thread.category.id }) }}
             </div>
         </div>
+        <div class="row">
+            <div class="col text-right">
+                @!component('lib.paginator', link = 'discussion', id = thread.id, last = posts.lastPage, curr = posts.page)
+            </div>
+        </div>
         <div class="row thread-content">
             <div class="col">
-                @!component('lib.paginator', link = 'discussion', id = thread.id, last = posts.lastPage, curr = posts.page)
-
                 @!component('lib.post', el = 'div', post = thread)
 
                 @if( hasPermission('edit', 'thread', thread.user.id))
@@ -28,10 +31,27 @@
                 @else
                     <strong>No posts</strong>
                 @endif
-
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-right">
                 @!component('lib.paginator', link = 'discussion', id = thread.id, last = posts.lastPage, curr = posts.page)
+            </div>
+        </div>
+        <div class="row thread-post">
+            <div class="col">
+                <form method="POST" action="{{ route('PostController.save') }}">
+                  {{ csrfField() }}
 
-                {{linkTo('new_post', 'New post', { thread : thread.id }) }}
+                  <input type="hidden" name="thread_id" value="{{thread.id}}" />
+
+                  <fieldset class="form-group">
+                  <h4><label for="title">Post comment</label></h4>
+                  <textarea id="editor" name="content" class="form-control">{{ old('content', '') }}</textarea>
+                  </fieldset>
+
+                  <input type="submit" value="Post" class="btn btn-primary float-right"></input>
+                </form>
             </div>
         </div>
     </div>

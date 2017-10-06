@@ -23,8 +23,9 @@
     <div class="row">
         @if(!hideUser)
         <div class="col-sm-4 col-lg-2 user-details">
-            <h5>{{ linkTo('profile', post.user.name, { id : post.user.id }) }}</h5>
+            @if(post.user.id !== currentUser.id)
             <h6>{{ linkTo('new_chat', 'PM', { recipient : post.user.name }) }}</h6>
+            @endif
         </div>
         @endif
         <div class="col post-content">

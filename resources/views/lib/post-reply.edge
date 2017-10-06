@@ -1,0 +1,12 @@
+<form method="POST" action="{{ route('PostController.save') }}">
+  {{ csrfField() }}
+
+  <input type="hidden" name="thread_id" value="{{thread.id}}" />
+
+  <fieldset class="form-group">
+  <label for="title">Reply</label>
+  <textarea id="editor" name="content" class="form-control">{{ old('content', '') }}</textarea>
+  </fieldset>
+
+  <input type="submit" value="Post" class="btn btn-primary btn-block"></input>
+</form>

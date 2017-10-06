@@ -9,6 +9,25 @@ a:hover {
     color: #db0e53;
 }
 
+.btn {
+    font-weight: bolder;
+}
+
+.btn:hover {
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: #990134;
+    border-color: #990134;
+}
+
+.btn-primary:hover {
+    background-color: #db0e53;
+    border-color: #db0e53;
+}
+
+
 .thread-header {
     padding-top: 20px;
 }
@@ -20,6 +39,10 @@ a:hover {
 .thread-header .thread-category a {
     display: inline-block;
     font-weight: bold;
+}
+
+.thread-post {
+    padding-bottom: 45px;
 }
 
 .posts {
@@ -52,11 +75,15 @@ a:hover {
     border-left: 1px solid #ccc;
 }
 
-.post-content {
+.post-content, .wysibb-text {
     font-family: 'Vollkorn', serif;
     letter-spacing: 0.03em;
     line-height: 1.6em;
     padding-top: 10px;
+}
+
+.wysibb-text-editor {
+    font-size: 1rem;
 }
 
 .post-content a {
