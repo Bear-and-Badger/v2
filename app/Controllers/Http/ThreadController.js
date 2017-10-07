@@ -38,7 +38,7 @@ class ThreadController {
         .with('user')
         .where('thread_id', '=', thread.id)
         .orderBy('created_at', 'asc')
-        .paginate(page, 2)
+        .paginate(page, 15)
 
     return view.render('thread.view', {
       thread: thread.toJSON(),

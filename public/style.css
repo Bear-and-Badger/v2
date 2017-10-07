@@ -37,11 +37,12 @@ a:hover {
 }
 
 .thread-header .thread-title {
-
+    font-weight: 700;
+    font-size: 3rem;
 }
 
-.thread-header .thread-category a {
-    display: inline-block;
+.thread-header .thread-category {
+    padding-bottom: 15px;
     font-weight: bold;
 }
 
