@@ -65,6 +65,16 @@ a:hover {
     padding-top: 45px;
 }
 
+.page-footer {
+    background: #fcfcfc;
+    font-size: 0.9rem;
+    color: #888;
+}
+
+.page-footer-content {
+    padding: 35px 0 25px;
+}
+
 .thread-header {
     padding-top: 20px;
 }
