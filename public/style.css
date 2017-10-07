@@ -31,6 +31,33 @@ a:hover {
     border-color: #db0e53;
 }
 
+.page-header .navbar {
+    background: #990134;
+}
+
+.page-header .navbar .nav-link {
+    color: #fcfcfc;
+    color: rgba(255,255,255,0.8);
+    text-transform: uppercase;
+    font-weight: bolder;
+    font-size: 0.9rem;
+}
+
+.page-header .navbar .nav-link:hover {
+    color: #ffffff;
+}
+
+.page-header .navbar .btn {
+    line-height: 0.8rem;
+}
+
+.page-header .navbar .btn:hover {
+    color: #990134;
+}
+
+.page-content {
+    padding-top: 45px;
+}
 
 .thread-header {
     padding-top: 20px;
@@ -43,7 +70,12 @@ a:hover {
 
 .thread-header .thread-category {
     padding-bottom: 15px;
+    margin-right: -5px;
     font-weight: bold;
+}
+
+.thread-header .thread-category a {
+    margin-right: -15px;
 }
 
 .thread-post {
