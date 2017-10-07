@@ -16,7 +16,9 @@
         </div>
         <div class="row thread-content">
             <div class="col">
+                @if(posts.page === 1)
                 @!component('lib.post', el = 'div', post = thread)
+                @endif
 
                 @if( hasPermission('edit', 'thread', thread.user.id))
                 {{linkTo('edit_discussion', 'Edit discussion', { id : thread.id }) }}

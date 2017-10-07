@@ -1,23 +1,29 @@
-<ul class="pagination">
+<ul class="pagination float-right">
 @if(last > 9)
-    <li class="page-item">{{linkTo(link, '1', { page : 1, id : id }) }}</li>
+    <li class="pagination-item">{{linkTo(link, '1', { page : 1, id : id }) }}</li>
 
-    @if(curr > 2)
-    <li class="paginator-item paginator-spacer">...</li>
+    @if(curr > 4)
+    <li class="pagination-item pagination-spacer">...</li>
     @endif
 
     @each(number in range(max(curr - 2, 2), min(curr + 3, last)))
-        <li class="page-item">{{linkTo(link, number, { page : number, id : id }) }}</li>
+        <li class="pagination-item {{eq(curr, number, 'selected', '')}}">
+            {{linkTo(link, number, { page : number, id : id }) }}
+        </li>
     @endeach
 
-    @if(curr < last - 1)
-    <li class="paginator-item paginator-spacer">...</li>
+    @if(curr < last - 3)
+    <li class="pagination-item pagination-spacer">...</li>
     @endif
 
-    <li class="page-item">{{linkTo(link, last, { page : last, id : id }) }}</li>
-@else
+    <li class="pagination-item">
+        {{linkTo(link, last, { page : last, id : id }) }}
+    </li>
+@elseif(last > 1)
     @each(number in range(1, last + 1))
-        <li class="page-item">{{linkTo(link, number, { page : number, id : id }) }}</li>
+        <li class="pagination-item {{eq(curr, number, 'selected', '')}}">
+            {{linkTo(link, number, { page : number, id : id }) }}
+        </li>
     @endeach
 @endif
 </ul>

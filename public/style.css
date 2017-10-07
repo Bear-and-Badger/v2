@@ -114,3 +114,30 @@ a:hover {
 .user-details a {
     font-size: 0.8em;
 }
+
+.pagination {
+
+}
+
+.pagination .pagination-spacer:hover {
+    cursor: default;
+}
+
+.pagination .pagination-item {
+    color: #888888;
+}
+
+.pagination .pagination-item a {
+    padding: 4px;
+    margin: 0 2px;
+    color: #888888;
+}
+
+.pagination .selected a {
+    font-weight: bolder;
+    color: #990134;
+}
+
+.pagination .pagination-item a:hover {
+    color: #990134;
+}
