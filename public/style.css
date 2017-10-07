@@ -49,6 +49,10 @@ a:hover {
     padding-bottom: 45px;
 }
 
+.thread-post .new-post-form {
+    padding: 10px;
+}
+
 .posts {
     margin: 0;
     padding: 0;
@@ -100,6 +104,19 @@ a:hover {
 
 .post-content img {
     max-width: 100%;
+}
+
+.post-content-edit {
+
+}
+
+.post-content-edit .post-edit-cancel {
+    font-size: 0.8em;
+    color: #888;
+}
+
+.post-content-edit .post-edit-cancel:hover {
+    color: #990134;
 }
 
 .user-name {

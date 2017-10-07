@@ -35,25 +35,57 @@
       buttons : "bold,italic,underline,|,img,link,|,fontcolor,|,justifyleft,justifycenter,justifyright,|,quote,table,,code"
   }
 
+  function Post(id, el) {
+      var content = el.find('.post-content');
+      var editing = el.find('.post-content-edit');
+
+      var editor = el.find('#post-editor-' + id);
+
+      var isEditing = false;
+
+      this.toggleInlineEditor = function() {
+          if (isEditing) {
+              isEditing = false;
+
+              editing.fadeOut(100, function() {
+                  content.fadeIn(100);
+              });
+          } else {
+              isEditing = true;
+
+              content.fadeToggle(100, function() {
+                  editing.fadeToggle(100, function() {
+                      editor.wysibb(opts)
+                  });
+              });
+          }
+      }
+  }
+
   $(function() {
     $("#editor").wysibb(opts);
 
-    $('.post-action-edit').on('click', function(e) {
+    var posts = {};
+
+    $('.post').each(function() {
+        var el = $(this);
+        var id = el.attr('data-id');
+        posts[id] = new Post(id, el);
+    });
+
+    var toggleInlineEditor = function(e) {
         e.preventDefault();
 
-        var post = $(this).closest('.post');
-        var content = post.find('.post-content')
-        var contentEdit = post.find('.post-content-edit');
+        var id = $(this).closest('.post').attr('data-id');
+        var post = posts[id];
 
-        var editor = post.find('#post-editor-' + post.attr('data-id'))
+        if (post) {
+            post.toggleInlineEditor();
+        }
+    }
 
-        content.fadeOut(100, function() {
-            contentEdit.fadeIn(100, function() {
-            console.log(editor)
-                editor.wysibb(opts)
-            })
-        })
-    })
+    $('.post-action-edit').on('click', toggleInlineEditor);
+    $('.post-edit-cancel').on('click', toggleInlineEditor);
   })
   </script>
   </head>

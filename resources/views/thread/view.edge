@@ -42,7 +42,7 @@
         </div>
         <div class="row thread-post">
             <div class="col">
-                <form method="POST" action="{{ route('PostController.save') }}">
+                <form method="POST" action="{{ route('PostController.save') }}" class="new-post-form">
                   {{ csrfField() }}
 
                   <input type="hidden" name="thread_id" value="{{thread.id}}" />
