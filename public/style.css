@@ -1,3 +1,7 @@
+.hidden {
+    display: none;
+}
+
 a {
     transition: color 1s;
     text-decoration: none;

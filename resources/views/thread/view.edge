@@ -27,7 +27,7 @@
                 @if(posts.data.length)
                     <ul class="posts">
                     @each(post in posts.data)
-                        @!component('lib.post', el = 'li', post = post, showEdit = true, $loop = $loop)
+                        @!component('lib.post', el = 'li', post = post, showEdit = true, $loop = $loop, csrfToken = csrfToken)
                     @endeach
                     </ul>
                 @else

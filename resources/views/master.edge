@@ -37,6 +37,23 @@
 
   $(function() {
     $("#editor").wysibb(opts);
+
+    $('.post-action-edit').on('click', function(e) {
+        e.preventDefault();
+
+        var post = $(this).closest('.post');
+        var content = post.find('.post-content')
+        var contentEdit = post.find('.post-content-edit');
+
+        var editor = post.find('#post-editor-' + post.attr('data-id'))
+
+        content.fadeOut(100, function() {
+            contentEdit.fadeIn(100, function() {
+            console.log(editor)
+                editor.wysibb(opts)
+            })
+        })
+    })
   })
   </script>
   </head>

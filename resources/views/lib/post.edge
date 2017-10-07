@@ -1,7 +1,7 @@
 @if($loop && $loop.isOdd)
-<{{el}} class="post post-alt container">
+<{{el}} class="post post-alt container" data-id="{{post.id}}">
 @else
-<{{el}} class="post container">
+<{{el}} class="post container" data-id="{{post.id}}">
 @endif
     <div class="row">
         <div class="col-sm-4 col-lg-2">
@@ -14,7 +14,7 @@
 
                 @if(showEdit)
                     @if(hasPermission('edit', 'post', post.user.id))
-                    <span class="post-action">{{linkTo('edit_post', 'Edit', { id : post.id }) }}</span>
+                    <span class="post-action post-action-edit">{{linkTo('edit_post', 'Edit', { id : post.id }) }}</span>
                     @endif
                 @endif
             </div>
@@ -28,8 +28,23 @@
             @endif
         </div>
         @endif
-        <div class="col post-content">
+        <div class="col">
+            <div class="post-content">
             {{bbcode(post.content)}}
+            </div>
+            @if(hasPermission('edit', 'post', post.user.id))
+            <div class="post-content-edit hidden">
+                <form method="POST" action="{{ route('PostController.save') }}">
+                  <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+                  <input type="hidden" name="id" value="{{ post.id }}" />
+
+                  <fieldset class="form-group">
+                  <textarea id="post-editor-{{post.id}}" name="content" class="form-control">{{ old('content', post.content) }}</textarea>
+                  </fieldset>
+                  <input type="submit" value="Save" class="btn btn-primary float-right"></input>
+                </form>
+            </div>
+            @endif
         </div>
     </div>
 </{{el}}>
