@@ -5,11 +5,6 @@
         <div class="row thread-header">
             <div class="col">
                 <h1 class="thread-title">Discussions ({{total}})</h1>
-                @if( hasPermission('edit', 'thread', currentUser.id))
-                <div class="thread-category align-middle">
-                    {{linkTo('new_discussion', 'Start new discussion')}}
-                </div>
-                @endif
             </div>
         </div>
         <div class="row">
@@ -43,3 +38,14 @@
     </div>
 @endsection
 
+@section('sidebar')
+
+@if( hasPermission('edit', 'thread', currentUser.id))
+<div class="row">
+    <div class="col thread-category align-middle">
+        {{linkTo('new_discussion', 'Start new discussion')}}
+    </div>
+</div>
+@endif
+
+@endsection

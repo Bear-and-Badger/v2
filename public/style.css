@@ -62,7 +62,11 @@ a:hover {
 }
 
 .page-content {
-    padding-top: 45px;
+    padding-top: 55px;
+}
+
+.page-sidebar {
+    padding-top: 95px;
 }
 
 .page-footer {
@@ -86,7 +90,7 @@ a:hover {
 
 .thread-header .thread-category {
     padding-bottom: 15px;
-    margin-right: -5px;
+    margin-right: 15px;
     font-weight: bold;
 }
 
@@ -184,8 +188,8 @@ a:hover {
     text-decoration: none;
 }
 
-.user-name a:hover {
-    color: #333;
+.user-name a:hover, .post:hover .user-name a {
+    color: #222;
 }
 
 .user-details a {
