@@ -1,25 +1,45 @@
 @layout('master')
 
 @section('content')
-   <h2>Discussions ({{total}})</h2>
-   <p>
-       <h4>{{linkTo('new_discussion', 'New discussion')}}</h4>
-   </p>
-   @!component('lib.paginator', link = 'discussions', last = lastPage, curr = page)
-   <div class="discussions-wrapper">
-   @each(thread in data)
-       <div class="post">
-           <h5>{{linkTo('discussion', thread.title, { id : thread.id }) }} ({{thread.category.name}})</h5>
-           <h6>
-           @if(thread.user)
-           {{ linkTo('profile', thread.user.name, { id : thread.user.id }) }}
-           @else
-           Deleted user
-           @endif
-           </h6>
-       </div>
-   @else
-       <h4>No posts found</h4>
-   @endeach
-   </div>
+    <div class="container">
+        <div class="row thread-header">
+            <div class="col">
+                <h1 class="thread-title">Discussions ({{total}})</h1>
+                @if( hasPermission('edit', 'thread', currentUser.id))
+                <div class="thread-category align-middle">
+                    {{linkTo('new_discussion', 'Start new discussion')}}
+                </div>
+                @endif
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-right">
+                @!component('lib.paginator', link = 'discussions', last = lastPage, curr = page)
+            </div>
+        </div>
+        <div class="row thread-content">
+            <div class="col">
+                @each(thread in data)
+                   <div class="post">
+                       <h5>{{linkTo('discussion', thread.title, { id : thread.id }) }} ({{thread.category.name}})</h5>
+                       <h6>
+                       @if(thread.user)
+                       {{ linkTo('profile', thread.user.name, { id : thread.user.id }) }}
+                       @else
+                       Deleted user
+                       @endif
+                       </h6>
+                   </div>
+               @else
+                    <strong>No discussions</strong>
+                @endeach
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-right">
+                @!component('lib.paginator', link = 'discussions', last = lastPage, curr = page)
+            </div>
+        </div>
+    </div>
 @endsection
+
