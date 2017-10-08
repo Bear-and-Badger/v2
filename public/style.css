@@ -122,7 +122,7 @@ a:hover {
     font-size: 0.8em;
 }
 
-.post-metadata .post-date {
+.post-metadata .post-date, .post-footer .post-date {
     color: #888;
 }
 
@@ -130,6 +130,13 @@ a:hover {
     padding-left: 6px;
     margin-left: 6px;
     border-left: 1px solid #ccc;
+}
+
+.post-footer {
+    border-top: 1px solid #eee;
+    padding-top: 5px;
+    margin-top: 10px;
+    font-size:0.7rem;
 }
 
 .post-content, .wysibb-text {

@@ -4,13 +4,13 @@
 <{{el}} class="post container" data-id="{{post.id}}">
 @endif
     <div class="row">
-        <div class="col-sm-4 col-lg-2">
+        <div class="col-5 col-lg-2">
             <strong class="user-name">{{ linkTo('profile', post.user.name, { id : post.user.id }) }}</strong>
         </div>
-        <div class="col-sm-2 col-lg-6"></div>
-        <div class="col-sm-6 col-lg-4">
+        <div class="col-1 col-lg-6"></div>
+        <div class="col-6 col-lg-4">
             <div class="post-metadata text-right">
-                <span class="post-date">{{upperFirst(post.updated_at)}}</span>
+                <span class="post-date">{{upperFirst(post.created_at)}}</span>
 
                 @if(showEdit)
                     @if(hasPermission('edit', 'post', post.user.id))
@@ -48,4 +48,13 @@
             @endif
         </div>
     </div>
+    @if(post.isEdited)
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="post-footer">
+                <span class="post-date">Edited {{post.updated_at}}</span>
+            </div>
+        </div>
+    </div>
+    @endif
 </{{el}}>

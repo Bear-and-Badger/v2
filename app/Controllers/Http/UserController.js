@@ -70,7 +70,7 @@ class UserController {
     if (params.id) {
       user = await User.find(params.id)
     } else {
-      user = auth.user
+      user = await auth.getUser()
     }
 
     const page = parseInt((params.page || 1))
@@ -79,7 +79,7 @@ class UserController {
         .with('thread')
         .where('user_id', user.id)
         .orderBy('created_at', 'desc')
-        .paginate(page, 2)
+        .paginate(page, 15)
 
     return view.render('user.profile', {
       user: user.toJSON(),
