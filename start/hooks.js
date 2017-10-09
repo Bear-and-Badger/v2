@@ -23,9 +23,9 @@ const bbcodeFilter = XBBCode.create({
 hooks.after.providersBooted(() => {
   const View = use('View')
 
-  View.global('linkTo', function (route, name, params) {
+  View.global('linkTo', function (route, name, params, cssClass) {
     const routeTo = this.resolve('route')
-    return this.safe(`<a href="${routeTo(route, params)}"> ${name} </a>`)
+    return this.safe(`<a href="${routeTo(route, params)}" class="${cssClass}"> ${name} </a>`)
   })
 
   View.global('bbcode', function (content) {
@@ -38,4 +38,19 @@ hooks.after.providersBooted(() => {
 
   View.global('min', Math.min)
   View.global('max', Math.max)
+
+  View.global('postCount', function (index, counts) {
+    const count = counts[index]['count(*)'] || 0
+    let suffix = ''
+
+    if (count !== 1) {
+      suffix = 's'
+    }
+
+    return count + ' post' + suffix
+  })
+
+  View.global('postFor', function (index, posts) {
+      return posts[index]
+  })
 })

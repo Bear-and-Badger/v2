@@ -3,9 +3,6 @@
     <div class="container">
         <div class="row thread-header">
             <div class="col">
-                <div class="thread-category text-right align-middle">
-                    {{ linkTo('category', '‹ ' + thread.category.name, { id : thread.category.id }) }}
-                </div>
                 <h1 class="thread-title">{{thread.title}}</h1>
             </div>
         </div>
@@ -52,9 +49,21 @@
                   <textarea id="editor" name="content" class="form-control">{{ old('content', '') }}</textarea>
                   </fieldset>
 
-                  <input type="submit" value="Post" class="btn btn-primary float-right"></input>
+                  <input type="submit" value="Post comment" class="btn btn-primary float-right"></input>
                 </form>
             </div>
         </div>
     </div>
+@endsection
+
+@section('sidebar')
+
+@if( hasPermission('edit', 'thread', currentUser.id))
+<div class="row">
+    <div class="col thread-category align-middle">
+        {{linkTo('new_discussion', 'Start new discussion', {}, 'btn btn-primary')}}
+    </div>
+</div>
+@endif
+
 @endsection

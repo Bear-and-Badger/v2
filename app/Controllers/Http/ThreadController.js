@@ -3,6 +3,8 @@
 const ModelUtil = use('App/Helpers/ModelUtil')
 const ViewUtil = use('App/Helpers/ViewUtil')
 
+const Database = use('Database')
+
 const Thread = use('App/Models/Thread')
 const Post = use('App/Models/Post')
 
@@ -17,7 +19,40 @@ class ThreadController {
         .orderBy('updated_at', 'desc')
         .paginate(page, 15)
 
-    return view.render('thread.index', threads.toJSON())
+    const threadPage = threads.toJSON()
+    const threadIds = threadPage.data.map((thread) => thread.id)
+    const threadIdString = threadIds.join(', ')
+
+    // Get a list of post counts for each thread in this page
+    const postCounts = await Database.from('posts')
+        .whereIn('thread_id', threadIds)
+        .groupBy('thread_id')
+        .orderByRaw(`field (thread_id, ${threadIdString})`)
+        .select('thread_id')
+        .count()
+
+    // Select the latest post for each thread id. Results are ordered according to the Threads fetched earlier
+    const subquery = 'select `thread_id`, max(`created_at`) created_at from `posts` where `thread_id` in (' +
+        threadIdString + '' +
+        ') group by `thread_id` order by field (`thread_id`, ' +
+        threadIdString + ')'
+
+    const latestPosts = await Post.query()
+        .joinRaw('join (' + subquery + ') posts2 on posts.thread_id = posts2.thread_id and posts.created_at = posts2.created_at')
+        .orderByRaw(`field (posts.thread_id, ${threadIdString})`)
+        .with('user')
+        .fetch()
+
+    const latestPostsJson = latestPosts.toJSON()
+
+    threadPage.data.forEach((thread, index) => {
+      thread.latest_post = latestPostsJson[index]
+      thread.post_count = postCounts[index]['count(*)']
+    })
+
+    return view.render('thread.index', {
+      threads: threadPage
+    })
   }
 
   async view ({view, params, request, response}) {

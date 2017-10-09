@@ -9,7 +9,7 @@
 }
 
 a {
-    transition: color 1s;
+    transition: color 0.8s;
     text-decoration: none;
     color: #990134;
 }
@@ -76,11 +76,7 @@ h3 {
     color: #990134;
 }
 
-.page-content {
-    padding-top: 55px;
-}
-
-.page-sidebar {
+.page-content, .page-sidebar {
     padding-top: 95px;
 }
 
@@ -125,31 +121,56 @@ h3 {
     padding: 35px 0 25px;
 }
 
-.thread-header {
-    padding-top: 20px;
-}
-
-.thread-header .thread-title {
-    font-weight: 700;
-    font-size: 3rem;
-}
-
-.thread-header .thread-category {
-    padding-bottom: 15px;
-    margin-right: 15px;
-    font-weight: bold;
-}
-
-.thread-header .thread-category a {
-    margin-right: -15px;
-}
-
 .thread-post {
     padding-bottom: 45px;
 }
 
 .thread-post .new-post-form {
     padding: 10px;
+}
+
+.thread-listing {
+    border-bottom: 1px dotted #ccc;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    color: #888;
+}
+
+.thread-listing-alt {
+    background-color: #fbfbfb;
+}
+
+.thread-listing h5 {
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.thread-listing a {
+    color: #222;
+}
+
+.thread-listing a:hover {
+    color: #990134;
+}
+
+.thread-metadata {
+    font-size: 0.8em;
+    width: 100%;
+    color: #888;
+}
+
+.thread-metadata .item {
+    padding-left: 6px;
+    margin-left: 6px;
+    border-left: 1px solid #ccc;
+}
+
+.thread-metadata .item:first-child {
+    padding-left: 0px;
+    margin-left: 0px;
+    border-left: none;
 }
 
 .posts {
