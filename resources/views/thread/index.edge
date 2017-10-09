@@ -4,55 +4,38 @@
     <div class="container">
         <div class="row thread-header">
             <div class="col">
+                @if(category)
+                <h1 class="thread-title">{{category.name}}</h1>
+                @else
                 <h1 class="thread-title">All Discussions</h1>
+                @endif
             </div>
         </div>
         <div class="row">
             <div class="col text-right">
+            @if(category)
+                @!component('lib.paginator', link = 'category', last = threads.lastPage, curr = threads.page, id = category.slug)
+            @else
                 @!component('lib.paginator', link = 'discussions', last = threads.lastPage, curr = threads.page)
+            @endif
             </div>
         </div>
         <div class="row thread-content">
             <div class="col">
                 @each(thread in threads.data)
-                   @if($loop.isEven)
-                   <div class="container thread-listing thread-listing-alt">
-                   @else
-                   <div class="container thread-listing">
-                   @endif
-                        <div class="row">
-                            <div class="thread-title">
-                                <h5>{{linkTo('discussion', thread.title, { id : thread.id }) }}</h5>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="thread-metadata">
-                                <span class="item">
-                                Created by {{ linkTo('profile', thread.user.name, { id : thread.user.id }) }}
-                                </span>
-
-                                <span class="item">
-                                   {{thread.post_count}} posts
-                                </span>
-
-                                <span class="item">
-                                    Latest post by {{ linkTo('profile', thread.latest_post.user.name, { id : thread.latest_post.user.id }) }} {{ thread.latest_post.created_at }}
-                                </span>
-
-                                <span class="float-right">
-                                {{linkTo('category', thread.category.name, { id : thread.category.slug }) }}
-                                </span>
-                            </div>
-                        </div>
-                   </div>
-               @else
+                    @!component('lib.thread', thread = thread, $loop = $loop)
+                @else
                     <strong>No discussions</strong>
                 @endeach
             </div>
         </div>
         <div class="row">
             <div class="col text-right">
-                @!component('lib.paginator', link = 'discussions', last = threads.lastPage, curr = threads.page)
+               @if(category)
+                   @!component('lib.paginator', link = 'category', last = threads.lastPage, curr = threads.page, id = category.slug)
+               @else
+                   @!component('lib.paginator', link = 'discussions', last = threads.lastPage, curr = threads.page)
+               @endif
             </div>
         </div>
     </div>

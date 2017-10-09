@@ -1,0 +1,30 @@
+@if($loop && $loop.isEven)
+<div class="container thread-listing thread-listing-alt">
+@else
+<div class="container thread-listing">
+@endif
+    <div class="row">
+        <div class="thread-title">
+            <h5>{{linkTo('discussion', thread.title, { id : thread.id }) }}</h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="thread-metadata">
+            <span class="item">
+            Created by {{ linkTo('profile', thread.user.name, { id : thread.user.id }) }}
+            </span>
+
+            <span class="item">
+               {{thread.post_count}} posts
+            </span>
+
+            <span class="item">
+                Latest post by {{ linkTo('profile', thread.latest_post.user.name, { id : thread.latest_post.user.id }) }} {{ thread.latest_post.created_at }}
+            </span>
+
+            <span class="float-right">
+            {{linkTo('category', thread.category.name, { id : thread.category.slug }) }}
+            </span>
+        </div>
+    </div>
+</div>

@@ -26,17 +26,15 @@ Route.post('/signup', 'UserController.signup').as('signup')
 Route.post('/login', 'UserController.login').as('login')
 Route.get('/profile/:id/:page?', 'UserController.profile').as('profile')
 
-/**
- * Post content
- */
-Route.get('/', 'CategoryController.index').as('home')
-Route.get('/categories', 'CategoryController.index').as('categories')
-Route.get('/category/:id', 'CategoryController.view').as('category')
+Route.get('/', 'ThreadController.index').as('home')
+Route.get('/search/:id/:page?', 'SearchController.search').as('search')
 
+/**
+ * Public Threads / Categories
+ */
 Route.get('/discussions/:page?', 'ThreadController.index').as('discussions')
 Route.get('/discussion/:id/:page?', 'ThreadController.view').as('discussion')
-
-Route.get('/search/:id/:page?', 'SearchController.search').as('search')
+Route.get('/category/:id/:page?', 'ThreadController.category').as('category')
 
 /**
  * Creating / editing posts & threads
