@@ -19,6 +19,21 @@ a:hover {
     color: #db0e53;
 }
 
+h1 {
+    font-weight: 700;
+    font-size: 3rem;
+}
+
+h2 {
+    font-weight: 700;
+    font-size: 2rem;
+}
+
+h3 {
+    font-weight: 700;
+    font-size: 1.4rem;
+}
+
 .btn {
     font-weight: bolder;
 }
@@ -67,6 +82,37 @@ a:hover {
 
 .page-sidebar {
     padding-top: 95px;
+}
+
+.page-sidebar-section {
+    padding-top: 15px;
+    margin-top: 15px;
+}
+
+.page-sidebar-section:first-child {
+    padding-top: 0px;
+    margin-top: 0px;
+}
+
+.page-categories {
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.page-category {
+    border-bottom: 1px dotted #ccc;
+    padding-bottom: 3px;
+    margin-bottom: 3px;
+}
+
+.page-category a {
+    padding-left: 5px;
+    display: block;
+}
+
+.page-category a:hover, .page-categories .selected a {
+    background: #fcfcfc;
 }
 
 .page-footer {

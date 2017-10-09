@@ -14,7 +14,7 @@ class PermissionContext {
   }
 
   async getCategories () {
-    return this.role.categories().fetch()
+    return this.role.categories().orderBy('name', 'asc').fetch()
   }
 
   async getCategoryIds () {
@@ -39,6 +39,10 @@ class Permissions {
 
       request.permissions = new PermissionContext(await Role.findBy('name', 'Visitor'))
     }
+
+    const categories = await request.permissions.getCategories()
+
+    View.global('page_categories', categories.toJSON())
 
     return next()
   }
