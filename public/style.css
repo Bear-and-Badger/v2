@@ -290,6 +290,18 @@ ul.listings {
     color: #990134;
 }
 
+.chat-content {
+    padding-top: 0;
+}
+
+.chat-body {
+    margin-top: 15px;
+}
+
+.listings-major .message-listing {
+    padding-top: 15px;
+}
+
 .pagination {
 
 }

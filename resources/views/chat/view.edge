@@ -2,18 +2,13 @@
 @section('content')
 
 <div class="container">
-        <div class="row chat-header">
+        <div class="row thread-metadata chat-heading">
             <div class="col">
-                <h1>Chat ({{chat.messages.length}} messages)</h1>
-            </div>
-        </div>
-        <div class="row chat-subheading">
-            <div class="col">
-                <h4>Participants:</h4>
+                <h3>Participants:</h3>
                 <ul class="chat-participants">
                 @each(user in chat.users)
                 @if(user.id !== currentUser.id)
-                <li class="chat-participant">
+                <li class="item float-left chat-participant">
                     {{ linkTo('profile', user.name, { id : user.id }) }}
                 </li>
                 @endif

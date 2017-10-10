@@ -35,7 +35,7 @@ class ChatController {
       chat.latest_message = latestMessagesJson[i]
     })
 
-    return view.render('user.inbox', {
+    return view.render('chat.inbox', {
       chats: json
     })
   }
@@ -48,7 +48,7 @@ class ChatController {
             .with('messages.user')
             .first()
 
-    return view.render('user.chat', {
+    return view.render('chat.view', {
       chat: chat.toJSON()
     })
   }
