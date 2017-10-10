@@ -150,7 +150,7 @@ ul.listings {
     margin-bottom: 3px;
 }
 
-.thread-listing h5 {
+.thread-listing h5, .thread-listing h6 {
     font-weight: bold;
     font-size: 0.9rem;
 }
@@ -335,4 +335,25 @@ ul.listings {
 
 .pagination .pagination-item a:hover {
     color: #990134;
+}
+
+.dropdown-menu {
+    padding: 0 .5rem;
+    font-size: 0.8rem;
+}
+
+.dropdown-menu::before {
+    width: 0;
+    height: 0;
+    border-left: 5px solid #ccc;
+    border-right: 5px solid #ccc;
+    border-bottom: 5px solid #fff;
+}
+
+.dropdown-menu .listings {
+    margin-bottom : 0;
+}
+
+.dropdown-menu .listing:last-child {
+    border-bottom: none;
 }

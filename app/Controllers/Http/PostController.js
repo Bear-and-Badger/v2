@@ -1,6 +1,7 @@
 'use strict'
 
 const ModelUtil = use('App/Helpers/ModelUtil')
+const Thread = use('App/Models/Thread')
 const Post = use('App/Models/Post')
 
 class PostController {
@@ -25,7 +26,7 @@ class PostController {
       content: 'required'
     }
 
-    await ModelUtil.save(Post, data, rules, async (errors) => {
+    const post = await ModelUtil.save(Post, data, rules, async (errors) => {
       session.put('id', data.id)
       session.put('content', data.content)
       session.put('thread_id', data.thread_id)
@@ -37,8 +38,14 @@ class PostController {
     }, async (post) => {
       post.user_id = auth.user.id
     }, async (post) => {
-      response.route('discussion', {id: post.thread_id, page: 1})
+
     })
+
+    await Thread.query()
+        .where('id', post.thread_id)
+        .increment('post_count', 1)
+
+    response.route('discussion', {id: post.thread_id, page: 1})
   }
 }
 

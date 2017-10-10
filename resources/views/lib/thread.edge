@@ -4,12 +4,27 @@
 <div class="container listing thread-listing">
 @endif
     <div class="row">
-        <div class="thread-title">
+        <div class="col-sm-10">
             <h5>{{linkTo('discussion', thread.title, { id : thread.id }) }}</h5>
+        </div>
+        <div class="col-sm-2 thread-metadata text-md-right">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="-30%p">
+                Options
+              </a>
+
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <ul class="listings listings-minor">
+                    <li class="listing"><a href="/bookmark/{{thread.id}}">Bookmark</a></li>
+                    <li class="listing"><a href="/mark/{{thread.id}}">Mark as read</a></li>
+                    @if(hasPermission('delete', 'thread', thread.user.id))
+                    <li class="listing"><a href="/delete/{{thread.id}}">Delete discussion</a></li>
+                    @endif
+                </ul>
+              </div>
         </div>
     </div>
     <div class="row">
-        <div class="thread-metadata">
+        <div class="col thread-metadata">
             <span class="item">
             Created by {{ linkTo('profile', thread.user.name, { id : thread.user.id }) }}
             </span>
@@ -18,12 +33,14 @@
                {{thread.post_count}} posts
             </span>
 
+            @if(thread.latest_post)
             <span class="item">
                 Latest post by {{ linkTo('profile', thread.latest_post.user.name, { id : thread.latest_post.user.id }) }} {{ thread.latest_post.created_at }}
             </span>
+            @endif
 
-            <span class="float-right">
-            {{linkTo('category', thread.category.name, { id : thread.category.slug }) }}
+            <span class="item">
+                {{linkTo('category', thread.category.name, { id : thread.category.slug }) }}
             </span>
         </div>
     </div>

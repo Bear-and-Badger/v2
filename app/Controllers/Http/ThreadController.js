@@ -3,8 +3,6 @@
 const ModelUtil = use('App/Helpers/ModelUtil')
 const ViewUtil = use('App/Helpers/ViewUtil')
 
-const Database = use('Database')
-
 const Category = use('App/Models/Category')
 const Thread = use('App/Models/Thread')
 const Post = use('App/Models/Post')
@@ -22,14 +20,6 @@ const getThreads = async (page, filter) => {
     const threadIds = json.data.map((thread) => thread.id)
     const threadIdString = threadIds.join(', ')
 
-      // Get a list of post counts for each thread in this page
-    const postCounts = await Database.from('posts')
-          .whereIn('thread_id', threadIds)
-          .groupBy('thread_id')
-          .orderByRaw(`field (thread_id, ${threadIdString})`)
-          .select('thread_id')
-          .count()
-
     // Select the latest post for each thread id. Results are ordered according to the Threads fetched earlier
     const subquery = 'select `thread_id`, max(`created_at`) created_at from `posts` where `thread_id` in (' +
           threadIdString + '' +
@@ -44,9 +34,14 @@ const getThreads = async (page, filter) => {
 
     const latestPostsJson = latestPosts.toJSON()
 
-    json.data.forEach((thread, index) => {
-      thread.latest_post = latestPostsJson[index]
-      thread.post_count = postCounts[index]['count(*)']
+    let index = 0
+
+    json.data.forEach((thread) => {
+      // Latest posts only contain values for threads with at least one post, so only assign field & increment index
+      // if this is true. Latest posts results will be in the same order as the threads, so we can safely iterate
+      if (thread.post_count) {
+        thread.latest_post = latestPostsJson[index++]
+      }
     })
   }
 

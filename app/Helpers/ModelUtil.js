@@ -40,4 +40,6 @@ ModelUtil.save = async (Model, data, rules, failure, preSave, postSave) => {
   await instance.save()
 
   await postSave(instance)
+
+  return instance
 }
