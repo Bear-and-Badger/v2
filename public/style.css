@@ -99,10 +99,18 @@ h3 {
     background: #fcfcfc;
 }
 
+.page-body {
+    min-height: 100%;
+    padding-bottom: 80px;
+    margin-bottom: -80px;
+}
+
 .page-footer {
     background: #fcfcfc;
     font-size: 0.9rem;
     color: #888;
+
+    height: 80px;
 }
 
 .page-footer-content {
