@@ -30,7 +30,7 @@ const getThreads = async (page, filter) => {
           .select('thread_id')
           .count()
 
-      // Select the latest post for each thread id. Results are ordered according to the Threads fetched earlier
+    // Select the latest post for each thread id. Results are ordered according to the Threads fetched earlier
     const subquery = 'select `thread_id`, max(`created_at`) created_at from `posts` where `thread_id` in (' +
           threadIdString + '' +
           ') group by `thread_id` order by field (`thread_id`, ' +

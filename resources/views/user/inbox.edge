@@ -2,29 +2,40 @@
 @section('content')
 
 <div class="container">
-        <div class="row thread-header">
-            <div class="col">
-                <h1>Inbox ({{chats.length}})</h1>
-            </div>
+    <div class="row thread-header">
+        <div class="col">
+            <h1>Inbox ({{chats.length}})</h1>
         </div>
-        <div class="row">
-            <div class="col">
-                <ul class="listings listings-major message-listings">
-                @each(chat in chats)
-                <li class="container listing message-listing">
-                    <div class="row chat-participants">
-                    @each(user in chat.users)
-                    @if(user.id !== currentUser.id)
-                        <span class="chat-participant">{{ linkTo('profile', user.name, { id : user.id }) }}</span>
-                    @endif
-                    @endeach
-                    </div>
-                    <div class="row">
-                        {{linkTo('chat', 'Read', { id : chat.id }) }}
-                    </div>
-                </li>
+    </div>
+    <div class="row">
+        <div class="col">
+            <ul class="listings listings-major message-listings">
+            @each(chat in chats)
+            <li class="container listing message-listing">
+                <div class="row thread-metadata chat-participants">
+                @each(user in chat.users)
+                @if(user.id !== currentUser.id)
+                    <span class="item chat-participant">{{ linkTo('profile', user.name, { id : user.id }) }}</span>
+                @endif
                 @endeach
-                </ul>
-            </div>
+                </div>
+                <div class="row post-content chat-content">
+                    {{bbcode(chat.latest_message.content)}}
+                </div>
+                <div class="row chat-metadata">
+                    <div class="thread-metadata">
+                        <span class="item">
+                            Latest message by {{ linkTo('profile', chat.latest_message.user.name, { id : chat.latest_message.user.id }) }} {{ chat.latest_message.created_at }}
+                        </span>
+
+                        <span class="float-right">
+                            {{linkTo('chat', 'Read', { id : chat.id }) }}
+                        </span>
+                    </div>
+                </div>
+            </li>
+            @endeach
+            </ul>
         </div>
+    </div>
 @endsection
