@@ -64,27 +64,24 @@ class UserController {
     }
   }
 
-  async profile ({params, auth, view}) {
-    let user
+  async profile ({params, view, response}) {
+    const user = await User.find(params.id)
+    const page = parseInt((params.page || 1), 10)
 
-    if (params.id) {
-      user = await User.find(params.id)
+    if (user) {
+      const posts = await Post.query()
+            .with('thread')
+            .where('user_id', user.id)
+            .orderBy('created_at', 'desc')
+            .paginate(page, 15)
+
+      return view.render('user.profile', {
+        user: user.toJSON(),
+        posts: posts.toJSON()
+      })
     } else {
-      user = await auth.getUser()
+      response.route('404', 404)
     }
-
-    const page = parseInt((params.page || 1))
-
-    const posts = await Post.query()
-        .with('thread')
-        .where('user_id', user.id)
-        .orderBy('created_at', 'desc')
-        .paginate(page, 15)
-
-    return view.render('user.profile', {
-      user: user.toJSON(),
-      posts: posts.toJSON()
-    })
   }
 }
 

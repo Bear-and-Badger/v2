@@ -1,18 +1,34 @@
 @layout('master')
 
 @section('content')
-    <h2>{{ user.name }}</h2>
-    <h4>Email: {{ user.email }}</h4>
-
-    @!component('lib.paginator', link = 'profile', id = user.id, max = posts.lastPage, curr = posts.page)
-    <ul>
-    @each(post in posts.data)
-       <li>
-         <h5>{{linkTo('discussion', post.thread.title, { id : post.thread.id }) }}</h5>
-         {{bbcode(post.content)}}
-       </li>
-    @else
-       No posts
-    @endeach
-    </ul>
+<div class="container">
+        <div class="row profile-header">
+            <div class="col">
+                <h1>{{user.name}}</h1>
+                <h4>{{user.email}}</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-right">
+                @!component('lib.paginator', link = 'profile', id = user.id, last = posts.lastPage, curr = posts.page)
+            </div>
+        </div>
+        <div class="row profile-content">
+            <div class="col">
+                <ul class="posts">
+                @each(post in posts.data)
+                    @!component('lib.post', el = 'li', post = post, showEdit = false, showThread = true, hideUser = true, $loop = $loop)
+                @else
+                    <strong>No posts</strong>
+                @endeach
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-right">
+                @!component('lib.paginator', link = 'profile', id = user.id, last = posts.lastPage, curr = posts.page)
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

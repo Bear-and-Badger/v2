@@ -4,10 +4,14 @@
 <{{el}} class="post container" data-id="{{post.id}}">
 @endif
     <div class="row">
-        <div class="col-5 col-lg-2">
-            <strong class="user-name">{{ linkTo('profile', post.user.name, { id : post.user.id }) }}</strong>
+        <div class="col-5 col-lg-4">
+            @if(showThread)
+                <strong class="user-name">{{ linkTo('discussion', post.thread.title, { id : post.thread.id }) }}</strong>
+            @else
+                <strong class="user-name">{{ linkTo('profile', post.user.name, { id : post.user.id }) }}</strong>
+            @endif
         </div>
-        <div class="col-1 col-lg-6"></div>
+        <div class="col-1 col-lg-4"></div>
         <div class="col-6 col-lg-4">
             <div class="post-metadata text-right">
                 <span class="post-date">{{upperFirst(post.created_at)}}</span>

@@ -54,7 +54,6 @@ Route.group('authorised', function () {
  */
 Route.group('profile', function () {
   Route.get('/logout', 'UserController.logout').as('logout')
-  Route.get('/profile/me/:page?', 'UserController.profile').as('self')
   Route.get('/messages', 'ChatController.inbox').as('inbox')
   Route.get('/messages/new/:recipient?', 'ChatController.create').as('new_chat')
   Route.post('/messages/new', 'ChatController.store').as('save_chat')

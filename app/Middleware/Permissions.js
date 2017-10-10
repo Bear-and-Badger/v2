@@ -9,7 +9,8 @@ const DEFAULT_RESPONSE = function () {
 }
 
 class PermissionContext {
-  constructor (role) {
+  constructor (user, role) {
+    this.user = user
     this.role = role
   }
 
@@ -32,12 +33,12 @@ class Permissions {
       View.global('hasPermission', checker)
       View.global('currentUser', user)
 
-      request.permissions = new PermissionContext(await user.role().fetch())
+      request.permissions = new PermissionContext(user, await user.role().fetch())
     } catch (e) {
       View.global('currentUser', undefined)
       View.global('hasPermission', DEFAULT_RESPONSE)
 
-      request.permissions = new PermissionContext(await Role.findBy('name', 'Visitor'))
+      request.permissions = new PermissionContext(null, await Role.findBy('name', 'Visitor'))
     }
 
     const categories = await request.permissions.getCategories()
