@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="row thread-content">
-            <div class="col">
+            <div class="col listings listings-major thread-listings">
                 @each(thread in threads.data)
                     @!component('lib.thread', thread = thread, $loop = $loop)
                 @else
@@ -43,12 +43,6 @@
 
 @section('sidebar')
 
-@if( hasPermission('edit', 'thread', currentUser.id))
-<div class="row">
-    <div class="col thread-category align-middle">
-        {{linkTo('new_discussion', 'Start new discussion', {}, 'btn btn-primary')}}
-    </div>
-</div>
-@endif
+@!include('lib.thread-sidebar')
 
 @endsection

@@ -58,12 +58,6 @@
 
 @section('sidebar')
 
-@if( hasPermission('edit', 'thread', currentUser.id))
-<div class="row">
-    <div class="col thread-category align-middle">
-        {{linkTo('new_discussion', 'Start new discussion', {}, 'btn btn-primary')}}
-    </div>
-</div>
-@endif
+@!include('lib.thread-sidebar')
 
 @endsection

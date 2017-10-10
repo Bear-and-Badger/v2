@@ -30,30 +30,6 @@
       <section class="col page-sidebar">
         <div class="container">
             @!section('sidebar')
-            <div class="row page-sidebar-section">
-                <div class="col">
-                    <h3>Categories</h3>
-
-                    <ul class="page-categories">
-                        <li class="page-category">{{linkTo('discussions', '&raquo; All Discussions', {}) }}</li>
-                    @each(category in page_categories)
-                        <li class="page-category">{{linkTo('category', '&raquo; ' + category.name, { id : category.slug }) }}</li>
-                    @endeach
-                    </ul>
-                </div>
-            </div>
-
-            <div class="row page-sidebar-section">
-                <div class="col">
-                    <h3>Bookmarks</h3>
-
-                    <ul class="page-categories">
-                        <li class="page-category">
-                            <a href="#">This is a bookmark <span class="badge badge-light">172</span></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
         </div>
       </section>
     </div>

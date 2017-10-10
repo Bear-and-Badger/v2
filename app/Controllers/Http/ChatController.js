@@ -7,7 +7,7 @@ const Chat = use('App/Models/Chat')
 class ChatController {
   async inbox ({view, auth}) {
     const chats = await Chat.query()
-        .with('user')
+        .with('users')
         .whereHas('users', (builder) => {
           builder.where('users.id', auth.user.id)
         })

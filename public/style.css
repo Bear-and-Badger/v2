@@ -90,18 +90,6 @@ h3 {
     margin-top: 0px;
 }
 
-.page-categories {
-    list-style: none;
-    margin-left: 0;
-    padding-left: 0;
-}
-
-.page-category {
-    border-bottom: 1px dotted #ccc;
-    padding-bottom: 3px;
-    margin-bottom: 3px;
-}
-
 .page-category a {
     padding-left: 5px;
     display: block;
@@ -129,17 +117,30 @@ h3 {
     padding: 10px;
 }
 
-.thread-listing {
+ul.listings {
+    padding-left: 0;
+}
+
+.listing {
     border-bottom: 1px dotted #ccc;
+    list-style: none;
+}
+
+.listing-alt {
+    background-color: #fbfbfb;
+}
+
+.listings-major .listing {
     padding-top: 5px;
     padding-bottom: 5px;
-    margin-bottom: 0px;
-    margin-top: 0px;
+    margin-bottom: 0;
+    margin-top: 0;
     color: #888;
 }
 
-.thread-listing-alt {
-    background-color: #fbfbfb;
+.listings-minor .listing {
+    padding-bottom: 3px;
+    margin-bottom: 3px;
 }
 
 .thread-listing h5 {
@@ -261,6 +262,33 @@ h3 {
 
 .user-details a {
     font-size: 0.8em;
+}
+
+.chat-subheading {
+
+}
+
+.chat-subheading h4 {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #888;
+}
+
+.chat-participants {
+    list-style: none;
+    padding-left: 0;
+}
+
+.chat-participant {
+    font-weight: bold;
+}
+
+.chat-participant a {
+    color: #333;
+}
+
+.chat-participant a:hover {
+    color: #990134;
 }
 
 .pagination {

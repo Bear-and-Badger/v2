@@ -1,41 +1,60 @@
 @layout('master')
 @section('content')
 
-<h2>Chat ({{chat.messages.length}} messages)</h2>
+<div class="container">
+        <div class="row chat-header">
+            <div class="col">
+                <h1>Chat ({{chat.messages.length}} messages)</h1>
+            </div>
+        </div>
+        <div class="row chat-subheading">
+            <div class="col">
+                <h4>Participants:</h4>
+                <ul class="chat-participants">
+                @each(user in chat.users)
+                @if(user.id !== currentUser.id)
+                <li class="chat-participant">
+                    {{ linkTo('profile', user.name, { id : user.id }) }}
+                </li>
+                @endif
+                @endeach
+                </ul>
+            </div>
+        </div>
+        <div class="row chat-body">
+            <div class="col">
+                <ul class="posts">
+                @each(message in chat.messages)
+                    @!component('lib.post', el = 'li', post = message, showEdit = false, $loop = $loop)
+                @endeach
+                </ul>
+            </div>
+        </div>
 
-<ul>
-@each(user in chat.users)
-<li>
-    <em>{{ linkTo('profile', user.name, { id : user.id }) }}</em>
-</li>
-@endeach
-</ul>
+        <div class="row thread-post">
+            <div class="col">
+                @if(old('errors'))
+                  <div class="alert alert-danger">
+                  @each(error in old('errors'))
+                  <li> {{error.message}}</li>
+                  @endeach
+                  </div>
+                  @endif
 
-<ul>
-@each(message in chat.messages)
-<li>
-    <strong>From:</strong> {{ linkTo('profile', message.user.name, { id : message.user.id }) }}
-    <br />
-    {{bbcode(message.content)}}
-</li>
-@endeach
-</ul>
-<br />
+                <form method="POST" action="{{ route('reply') }}" class="new-post-form">
+                  {{ csrfField() }}
 
-  @if(old('errors'))
-  <div class="alert alert-danger">
-  @each(error in old('errors'))
-  <li> {{error.message}}</li>
-  @endeach
-  </div>
-  @endif
-<form method="POST" action="{{ route('reply') }}">
-    {{csrfField()}}
+                  <input type="hidden" name="chat_id" value="{{chat.id}}" />
 
-    <input type="hidden" name="chat_id" value="{{chat.id}}" />
+                  <fieldset class="form-group">
+                  <h4><label for="title">Reply:</label></h4>
+                  <textarea id="editor" name="content" class="form-control">{{ old('content', '') }}</textarea>
+                  </fieldset>
 
-    <label for="content">Reply:</label>
-    <textarea id="editor" name="content">{{ old('content', '') }}</textarea>
-    <br />
-    <input type="submit" value="Reply" class="btn btn-primary btn-block"></input>
+                  <input type="submit" value="Send reply" class="btn btn-primary float-right"></input>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

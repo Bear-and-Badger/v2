@@ -1,0 +1,32 @@
+@if( hasPermission('edit', 'thread', currentUser.id))
+<div class="row page-sidebar-section">
+    <div class="col thread-category align-middle">
+        {{linkTo('new_discussion', 'Start new discussion', {}, 'btn btn-primary')}}
+    </div>
+</div>
+@endif
+
+<div class="row page-sidebar-section">
+    <div class="col">
+        <h3>Categories</h3>
+
+        <ul class="listings listings-minor page-categories">
+            <li class="listing page-category">{{linkTo('discussions', '&raquo; All Discussions', {}) }}</li>
+        @each(category in page_categories)
+            <li class="listing page-category">{{linkTo('category', '&raquo; ' + category.name, { id : category.slug }) }}</li>
+        @endeach
+        </ul>
+    </div>
+</div>
+
+<div class="row page-sidebar-section">
+    <div class="col">
+        <h3>Bookmarks</h3>
+
+        <ul class="page-categories">
+            <li class="page-category">
+                <a href="#">This is a bookmark <span class="badge badge-light">172</span></a>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,14 +1,30 @@
 @layout('master')
 @section('content')
 
-<h2>Inbox ({{chats.length}})</h2>
-<ul>
-@each(chat in chats)
-<li>
-    <strong>From:</strong> {{ linkTo('profile', chat.user.name, { id : chat.user.id }) }}
-    <br />
-    <a class="button" href="{{ route('chat', { id : chat.id }) }}">Read</a>
-</li>
-@endeach
-</ul>
+<div class="container">
+        <div class="row thread-header">
+            <div class="col">
+                <h1>Inbox ({{chats.length}})</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <ul class="listings listings-major message-listings">
+                @each(chat in chats)
+                <li class="container listing message-listing">
+                    <div class="row chat-participants">
+                    @each(user in chat.users)
+                    @if(user.id !== currentUser.id)
+                        <span class="chat-participant">{{ linkTo('profile', user.name, { id : user.id }) }}</span>
+                    @endif
+                    @endeach
+                    </div>
+                    <div class="row">
+                        {{linkTo('chat', 'Read', { id : chat.id }) }}
+                    </div>
+                </li>
+                @endeach
+                </ul>
+            </div>
+        </div>
 @endsection
