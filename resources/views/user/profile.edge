@@ -2,33 +2,63 @@
 
 @section('content')
 <div class="container">
-        <div class="row profile-header">
-            <div class="col">
-                <h1>{{user.name}}</h1>
-                <h4>{{user.email}}</h4>
-            </div>
+    <div class="row profile-header">
+        <div class="col">
+            <h1>{{user.name}}</h1>
+            <blockquote class="blockquote">
+            This is a signature that appears on every post I make
+            </blockquote>
         </div>
-        <div class="row">
-            <div class="col text-right">
-                @!component('lib.paginator', link = 'profile', id = user.id, last = posts.lastPage, curr = posts.page)
-            </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            @if(posts.data.length)
+            <h3>Recent posts</h3>
+            @else
+            <h3>This user has no posts</h3>
+            @endif
         </div>
-        <div class="row profile-content">
-            <div class="col">
-                <ul class="posts">
-                @each(post in posts.data)
-                    @!component('lib.post', el = 'li', post = post, showEdit = false, showThread = true, hideUser = true, $loop = $loop)
-                @else
-                    <strong>No posts</strong>
-                @endeach
-                </ul>
-            </div>
+    </div>
+    <div class="row">
+        <div class="col text-right">
+            @!component('lib.paginator', link = 'profile', id = user.id, last = posts.lastPage, curr = posts.page)
         </div>
-        <div class="row">
-            <div class="col text-right">
-                @!component('lib.paginator', link = 'profile', id = user.id, last = posts.lastPage, curr = posts.page)
-            </div>
+    </div>
+    <div class="row profile-content">
+        <div class="col">
+            <ul class="posts">
+            @each(post in posts.data)
+                @!component('lib.post', el = 'li', post = post, showEdit = false, showThread = true, hideUser = true, $loop = $loop)
+            @endeach
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col text-right">
+            @!component('lib.paginator', link = 'profile', id = user.id, last = posts.lastPage, curr = posts.page)
         </div>
     </div>
 </div>
+@endsection
+
+@section('sidebar')
+@if( hasPermission('edit', 'user', user.id))
+<div class="row page-sidebar-section">
+    <div class="col thread-category align-middle">
+        {{linkTo('profile', 'Edit profile', { id : user.id }, 'btn btn-primary')}}
+    </div>
+</div>
+@endif
+
+<div class="row page-sidebar-section">
+    <div class="col">
+        <ul class="listings listings-minor">
+            <li class="listing"><strong>Email</strong> {{user.email}}</li>
+            <li class="listing"><strong>Member since</strong> {{user.memberSince}}</li>
+            <li class="listing"><strong>Last online</strong> {{user.lastSeen}}</li>
+            <li class="listing"><strong>Post count</strong> {{post_count}}</li>
+        </ul>
+    </div>
+</div>
+
 @endsection

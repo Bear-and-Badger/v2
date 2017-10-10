@@ -3,6 +3,8 @@
 const PermissionUtil = use('App/Helpers/PermissionUtil')
 const Model = use('Model')
 
+const moment = require('moment')
+
 class User extends Model {
   static get rules () {
     return {
@@ -15,6 +17,10 @@ class User extends Model {
   static boot () {
     super.boot()
     this.addHook('beforeCreate', 'User.hashPassword')
+  }
+
+  static get computed () {
+    return ['memberSince', 'lastSeen']
   }
 
   tokens () {
@@ -35,6 +41,14 @@ class User extends Model {
 
   can (action, model, owner) {
     return PermissionUtil.check(action, model, owner, this)
+  }
+
+  getMemberSince ({created_at}) {
+    return moment(created_at).format('MMMM Do YYYY')
+  }
+
+  getLastSeen ({last_online}) {
+    return moment(last_online).fromNow()
   }
 }
 

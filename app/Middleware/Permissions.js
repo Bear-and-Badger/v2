@@ -4,6 +4,8 @@ const PermissionUtil = use('App/Helpers/PermissionUtil')
 const Role = use('App/Models/Role')
 const View = use('View')
 
+const moment = require('moment')
+
 const DEFAULT_RESPONSE = function () {
   return false
 }
@@ -32,6 +34,9 @@ class Permissions {
 
       View.global('hasPermission', checker)
       View.global('currentUser', user)
+
+      user.last_online = moment().format('YYYY-MM-DD HH:mm:ss')
+      user.save()
 
       request.permissions = new PermissionContext(user, await user.role().fetch())
     } catch (e) {

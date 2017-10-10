@@ -75,9 +75,14 @@ class UserController {
             .orderBy('created_at', 'desc')
             .paginate(page, 15)
 
+      const postCount = await Post.query()
+           .where('user_id', user.id)
+           .count()
+
       return view.render('user.profile', {
         user: user.toJSON(),
-        posts: posts.toJSON()
+        posts: posts.toJSON(),
+        post_count: postCount[0]['count(*)']
       })
     } else {
       response.route('404', 404)
