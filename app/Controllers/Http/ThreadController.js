@@ -4,6 +4,7 @@ const ModelUtil = use('App/Helpers/ModelUtil')
 const ViewUtil = use('App/Helpers/ViewUtil')
 
 const Category = use('App/Models/Category')
+const Bookmark = use('App/Models/Bookmark')
 const Thread = use('App/Models/Thread')
 const Post = use('App/Models/Post')
 
@@ -109,6 +110,24 @@ class ThreadController {
       thread: thread.toJSON(),
       posts: posts.toJSON()
     })
+  }
+
+  async bookmark ({auth, params, response}) {
+    await Bookmark.create({
+        thread_id: params.id,
+        user_id: auth.user.id
+    })
+
+    response.route('discussions')
+  }
+
+  async removeBookmark ({auth, params, response}) {
+      await Bookmark.query()
+          .where('user_id', auth.user.id)
+          .where('thread_id', params.id)
+          .delete()
+
+      response.route('discussions')
   }
 
   async new ({request, view}) {

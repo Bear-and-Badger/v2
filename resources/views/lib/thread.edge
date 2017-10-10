@@ -14,7 +14,11 @@
 
               <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <ul class="listings listings-minor">
-                    <li class="listing"><a href="/bookmark/{{thread.id}}">Bookmark</a></li>
+                    @if(isBookmarked(thread.id, bookmarks))
+                    <li class="listing">{{linkTo('remove_bookmark', 'Remove bookmark', { id : thread.id }) }}</li>
+                    @else
+                    <li class="listing">{{linkTo('bookmark', 'Bookmark', { id : thread.id }) }}</li>
+                    @endif
                     <li class="listing"><a href="/mark/{{thread.id}}">Mark as read</a></li>
                     @if(hasPermission('delete', 'thread', thread.user.id))
                     <li class="listing"><a href="/delete/{{thread.id}}">Delete discussion</a></li>

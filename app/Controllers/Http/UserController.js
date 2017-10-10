@@ -26,6 +26,8 @@ class UserController {
     session.put('email', data.email)
 
     if (validation.fails()) {
+      console.log(validation.messages())
+
       session.withErrors(validation.messages())
              .flashAll()
 
@@ -35,6 +37,7 @@ class UserController {
         await auth.attempt(data.email, data.password)
         response.redirect(session.get('prev', 'profile'))
       } catch (e) {
+          console.log(e)
         session.withErrors([e])
                .flashAll()
 

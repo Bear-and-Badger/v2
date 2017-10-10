@@ -23,10 +23,10 @@
     <div class="col">
         <h3>Bookmarks</h3>
 
-        <ul class="page-categories">
-            <li class="page-category">
-                <a href="#">This is a bookmark <span class="badge badge-light">172</span></a>
-            </li>
+        <ul class="listings listings-minor">
+        @each(bookmark in bookmarks)
+            <li class="listing">{{linkTo('discussion', bookmark.thread.title, { id : bookmark.thread_id })}} <span class="badge badge-light">172</span></li>
+        @endeach
         </ul>
     </div>
 </div>

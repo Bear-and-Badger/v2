@@ -1,6 +1,7 @@
 'use strict'
 
 const PermissionUtil = use('App/Helpers/PermissionUtil')
+const Bookmark = use('App/Models/Bookmark')
 const Role = use('App/Models/Role')
 const View = use('View')
 
@@ -32,8 +33,14 @@ class Permissions {
       const user = await auth.getUser()
       const checker = await PermissionUtil.createChecker(user)
 
+      const bookmarks = await Bookmark.query()
+        .where('user_id', user.id)
+        .with('thread')
+        .fetch()
+
       View.global('hasPermission', checker)
-      View.global('currentUser', user)
+      View.global('currentUser', user.toJSON())
+      View.global('bookmarks', bookmarks.toJSON())
 
       user.last_online = moment().format('YYYY-MM-DD HH:mm:ss')
       user.save()
@@ -42,6 +49,7 @@ class Permissions {
     } catch (e) {
       View.global('currentUser', undefined)
       View.global('hasPermission', DEFAULT_RESPONSE)
+      View.global('bookmarks', [])
 
       request.permissions = new PermissionContext(null, await Role.findBy('name', 'Visitor'))
     }

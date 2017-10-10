@@ -47,6 +47,9 @@ Route.group('authorised', function () {
   Route.get('/new/discussion', 'ThreadController.new').as('new_discussion')
   Route.get('/edit/discussion/:id', 'ThreadController.edit').as('edit_discussion')
   Route.post('/save/discussion', 'ThreadController.save')
+
+  Route.get('/add/bookmark/:id', 'ThreadController.bookmark').as('bookmark')
+  Route.get('/remove/bookmark/:id', 'ThreadController.removeBookmark').as('remove_bookmark')
 }).middleware('checkUser')
 
 /**

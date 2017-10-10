@@ -51,6 +51,16 @@ hooks.after.providersBooted(() => {
   })
 
   View.global('postFor', function (index, posts) {
-      return posts[index]
+    return posts[index]
+  })
+
+  View.global('isBookmarked', function (threadID, bookmarks) {
+    for (let i = 0; i < bookmarks.length; ++i) {
+      if (bookmarks[i].thread_id === threadID) {
+        return true
+      }
+    }
+
+    return false
   })
 })

@@ -35,6 +35,10 @@ class User extends Model {
     return this.hasMany('App/Models/Post', 'id')
   }
 
+  bookmarks () {
+    return this.hasMany('App/Models/Bookmark')
+  }
+
   role () {
     return this.belongsTo('App/Models/Role')
   }
