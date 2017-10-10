@@ -37,6 +37,8 @@
                 @!component('lib.paginator', link = 'discussion', id = thread.id, last = posts.lastPage, curr = posts.page)
             </div>
         </div>
+
+        @if(hasPermission('edit', 'post', currentUser.id))
         <div class="row thread-post">
             <div class="col">
                 <form method="POST" action="{{ route('PostController.save') }}" class="new-post-form">
@@ -53,6 +55,7 @@
                 </form>
             </div>
         </div>
+        @endif
     </div>
 @endsection
 
