@@ -3,17 +3,34 @@
 @else
 <{{el}} class="post container" data-id="{{post.id}}">
 @endif
+    @if(showThread)
     <div class="row">
         <div class="col-5 col-lg-4">
-            @if(showThread)
-                <strong class="user-name">{{ linkTo('discussion', post.thread.title, { id : post.thread.id }) }}</strong>
-            @else
-                <strong class="user-name">{{ linkTo('profile', post.user.name, { id : post.user.id }) }}</strong>
+            <strong class="user-name">{{ linkTo('discussion', post.thread.title, { id : post.thread.id }) }}</strong>
+        </div>
+        <div class="col"></div>
+    </div>
+    @endif
+
+    <div class="row">
+        @if(!hideUser && !showThread)
+        <div class="col-sm-4 col-lg-2 user-details">
+            <a class="user-name dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="-30%p">
+            {{post.user.name}}
+            </a>
+
+            @if(currentUser && post.user.id !== currentUser.id)
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <ul class="listings listings-minor user-actions">
+                    <li class="listing">{{ linkTo('profile', 'View profile', { id : post.user.id }) }}</li>
+                    <li class="listing">{{ linkTo('new_chat', 'Send message', { recipient : post.user.name }) }}</li>
+                </ul>
+            </div>
             @endif
         </div>
-        <div class="col-1 col-lg-4"></div>
-        <div class="col-6 col-lg-4">
-            <div class="post-metadata text-right">
+        @endif
+        <div class="col">
+            <div class="post-metadata text-right float-right">
                 <span class="post-date">{{upperFirst(post.created_at)}}</span>
 
                 @if(showEdit)
@@ -22,17 +39,6 @@
                     @endif
                 @endif
             </div>
-        </div>
-    </div>
-    <div class="row">
-        @if(!hideUser)
-        <div class="col-sm-4 col-lg-2 user-details">
-            @if(post.user.id !== currentUser.id)
-            <h6>{{ linkTo('new_chat', 'PM', { recipient : post.user.name }) }}</h6>
-            @endif
-        </div>
-        @endif
-        <div class="col">
             <div class="post-content">
             {{bbcode(post.content)}}
             </div>

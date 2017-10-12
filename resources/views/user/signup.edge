@@ -20,7 +20,7 @@
                 @endif
             </div>
             <div class="col-md-10 col-lg-6 order-lg-2 listings listings-minor">
-                <form method="POST" action="{{ route('UserController.login') }}" class="listing">
+                <form method="POST" action="{{ route('UserController.signup') }}" class="listing">
                     {{ csrfField() }}
                     <p></p>
                     <div class="form-group">
@@ -30,7 +30,7 @@
 
                     <div class="form-group">
                         <label for="email">Email:</label>
-                        <input type="text" name="email" value="{{old('email', '')}}" placeholder="Email address" class="form-control"></input>
+                        <input type="text" name="email" value="{{old('email', '')}}" class="form-control"></input>
                         <small id="emailHelp" class="form-text text-muted">Your email address will remain private and will not be shared with anyone else.</small>
                     </div>
 

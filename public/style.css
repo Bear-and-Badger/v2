@@ -222,7 +222,6 @@ ul.listings {
     font-family: 'Vollkorn', serif;
     letter-spacing: 0.03em;
     line-height: 1.6em;
-    padding-top: 10px;
 }
 
 .wysibb-text-editor {
@@ -254,21 +253,30 @@ ul.listings {
     color: #990134;
 }
 
-.user-name {
-    font-size: 0.9em;
+.user-details .listing {
+    padding-top: 5px;
 }
 
-.user-name a {
+.user-details .listing a {
+    color: #222;
+}
+
+.user-details .listing a:hover {
+    color: #990134;
+}
+
+.user-name {
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.user-name, .user-name a {
     color: #888;
     text-decoration: none;
 }
 
-.user-name a:hover, .post:hover .user-name a {
+.username:hover, .user-name a:hover, .post:hover .user-name, .post:hover .user-name a {
     color: #222;
-}
-
-.user-details a {
-    font-size: 0.8em;
 }
 
 .chat-subheading {
