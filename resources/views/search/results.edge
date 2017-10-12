@@ -11,23 +11,15 @@
 @if(results.data.length)
     <h1>{{type}} found for: '{{query}}'</h1>
 
-    <ul>
+    <ul class="posts">
     @each(item in results.data)
-        <li>
-        @if(type === 'discussions')
-        <h4>{{ linkTo('discussion', item.title, { id : item.id }) }}</h4>
-        @!component('lib.post', el = 'div', post = item, hideUser = true, $loop = $loop)
-        @endif
-
-        @if(type === 'posts')
-        <h4>{{ linkTo('discussion', item.thread.title, { id : item.thread.id }) }}</h4>
-        @!component('lib.post', el = 'div', post = item, hideUser = true, $loop = $loop)
+        @if(type === 'posts' || type === 'discussions')
+        @!component('lib.post', el = 'li', post = item, hideUser = true, showThread = true, $loop = $loop)
         @endif
 
         @if(type === 'users')
         <h4>{{ linkTo('profile', item.name, { id : item.id }) }}</h4>
         @endif
-        </li>
     @endeach
     </ul>
 

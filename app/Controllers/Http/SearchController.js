@@ -19,6 +19,10 @@ class SearchController {
                 .paginate(page, 10)
 
         results = threads.toJSON()
+
+        results.data.forEach((thread) => {
+          thread.thread = thread
+        })
       }
 
       if (type === 'posts' || type === 'all') {
