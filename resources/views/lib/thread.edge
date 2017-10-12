@@ -39,7 +39,7 @@
 
             @if(thread.latest_post)
             <span class="item">
-                Latest post by {{ linkTo('profile', thread.latest_post.user.name, { id : thread.latest_post.user.id }) }} {{ thread.latest_post.created_at }}
+                Latest post by {{ linkTo('profile', thread.latest_post.user.name, { id : thread.latest_post.user.id }) }} {{ thread.latest_post.wasCreatedAt }}
             </span>
             @endif
 

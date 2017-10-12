@@ -1,5 +1,6 @@
 'use strict'
 
+const moment = require('moment')
 const Model = use('Model')
 
 class Thread extends Model {
@@ -20,20 +21,20 @@ class Thread extends Model {
   }
 
   getIsEdited ({created_at, updated_at}) {
-    return created_at === updated_at
+    return created_at !== updated_at
   }
 
-  static get computed () {
-    return ['isEdited']
-  }
-
-  static castDates (field, value) {
-    if (field === 'created_at' || field === 'updated_at') {
-      return `${value.fromNow(true)} ago`
+    getWasCreatedAt ({created_at}) {
+        return moment(created_at).fromNow()
     }
 
-    return super.castDates(field, value)
-  }
+    getWasUpdatedAt ({updated_at}) {
+        return moment(updated_at).fromNow()
+    }
+
+    static get computed () {
+        return ['isEdited', 'wasCreatedAt', 'wasUpdatedAt']
+    }
 }
 
 module.exports = Thread

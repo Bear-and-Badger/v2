@@ -17,10 +17,6 @@
                 @!component('lib.post', el = 'div', post = thread)
                 @endif
 
-                @if( hasPermission('edit', 'thread', thread.user.id))
-                {{linkTo('edit_discussion', 'Edit discussion', { id : thread.id }) }}
-                @endif
-
                 @if(posts.data.length)
                     <ul class="posts">
                     @each(post in posts.data)
@@ -60,6 +56,14 @@
 @endsection
 
 @section('sidebar')
+
+@if( hasPermission('edit', 'thread', thread.user.id))
+<div class="row page-sidebar-section">
+    <div class="col thread-category align-middle">
+        {{linkTo('edit_discussion', 'Edit discussion', { id : thread.id }, 'btn btn-primary') }}
+    </div>
+</div>
+@endif
 
 @!include('lib.thread-sidebar')
 

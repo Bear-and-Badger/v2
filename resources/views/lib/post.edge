@@ -31,7 +31,7 @@
         @endif
         <div class="col">
             <div class="post-metadata text-right float-right">
-                <span class="post-date">{{upperFirst(post.created_at)}}</span>
+                <span class="post-date">{{upperFirst(post.wasCreatedAt)}}</span>
 
                 @if(showEdit)
                     @if(hasPermission('edit', 'post', post.user.id))
@@ -62,7 +62,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="post-footer">
-                <span class="post-date">Edited {{post.updated_at}}</span>
+                <span class="post-date">Edited {{post.wasUpdatedAt}}</span>
             </div>
         </div>
     </div>
