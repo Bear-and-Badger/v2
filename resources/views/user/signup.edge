@@ -1,28 +1,58 @@
 @layout('master')
 
 @section('content')
-    <h2>Signup</h2>
-
-    @if(old('errors'))
-        <div class="alert alert-danger">
-        @each(error in old('errors'))
-            <li>{{error.message}}</li>
-        @endeach
+    <div class="container">
+        <div class="row">
+            <div class="col-md-1 col-lg-3"></div>
+            <div class="col-md-10 col-lg-6">
+                <h1>Signup</h1>
+            </div>
+            <div class="col-md-1 col-lg-3"></div>
         </div>
-    @endif
+        <div class="row">
+            <div class="col-md-1 col-lg-3 order-lg-3">
+                @if(old('errors'))
+                    <div class="alert alert-danger">
+                    @each(error in old('errors'))
+                        <li>{{error.message}}</li>
+                    @endeach
+                    </div>
+                @endif
+            </div>
+            <div class="col-md-10 col-lg-6 order-lg-2 listings listings-minor">
+                <form method="POST" action="{{ route('UserController.login') }}" class="listing">
+                    {{ csrfField() }}
+                    <p></p>
+                    <div class="form-group">
+                        <label for="name">Username:</label>
+                        <input type="text" name="name" value="{{old('name', '')}}" placeholder="Choose a username" class="form-control"></input>
+                    </div>
 
-    <form method="POST" action="{{ route('UserController.signup') }}">
-        {{ csrfField() }}
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="text" name="email" value="{{old('email', '')}}" placeholder="Email address" class="form-control"></input>
+                        <small id="emailHelp" class="form-text text-muted">Your email address will remain private and will not be shared with anyone else.</small>
+                    </div>
 
-        <label for="name">Username:</label>
-        <input type="text" name="name" value="{{old('name', '')}}"></input>
-        <br />
-        <label for="email">Email:</label>
-        <input type="text" name="email" value="{{old('email', '')}}"></input>
-        <br />
-        <label for="password">Password:</label>
-        <input type="password" name="password" value=""></input>
-        <br />
-        <input type="submit"></input>
-    </form>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" name="password" value="" class="form-control"></input>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Confirm password:</label>
+                        <input type="password" name="password2" value="" class="form-control"></input>
+                    </div>
+
+                    <p>
+                        <button type="submit" class="btn btn-primary">Register</button>
+                    </p>
+                </form>
+
+                <p class="listing">
+                    Already have an account? {{linkTo('login', 'Login')}}.
+                </p>
+            </div>
+        <div class="col-md-1 col-lg-3 order-lg-1"></div>
+    </div>
 @endsection

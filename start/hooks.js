@@ -25,7 +25,7 @@ hooks.after.providersBooted(() => {
 
   View.global('linkTo', function (route, name, params, cssClass) {
     const routeTo = this.resolve('route')
-    return this.safe(`<a href="${routeTo(route, params)}" class="${cssClass}"> ${name} </a>`)
+    return this.safe(`<a href="${routeTo(route, params)}" class="${cssClass}">${name}</a>`)
   })
 
   View.global('bbcode', function (content) {
