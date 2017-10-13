@@ -27,6 +27,8 @@
                 </ul>
             </div>
             @endif
+
+            <img src="http://thebearandbadger.co.uk/uploads/userpics/849/nTGZW40JO3KB0.gif" />
         </div>
         @endif
         <div class="col">
@@ -36,6 +38,12 @@
                 @if(showEdit)
                     @if(hasPermission('edit', 'post', post.user.id))
                     <span class="post-action post-action-edit">{{linkTo('edit_post', 'Edit', { id : post.id }) }}</span>
+                    @endif
+                @endif
+
+                @if(showEditThread)
+                    @if(hasPermission('edit', 'thread', post.user.id))
+                    <span class="post-action">{{linkTo('edit_discussion', 'Edit', { id : post.id }) }}</span>
                     @endif
                 @endif
             </div>

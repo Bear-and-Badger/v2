@@ -1,9 +1,8 @@
 
-
 @if( hasPermission('edit', 'thread', currentUser.id))
 <div class="row page-sidebar-section">
     <div class="col thread-category align-middle">
-        {{linkTo('new_discussion', 'Start new discussion', {}, 'btn btn-primary')}}
+        {{linkTo('new_discussion', 'Start a new discussion', {}, 'btn btn-primary')}}
     </div>
 </div>
 @endif

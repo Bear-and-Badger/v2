@@ -14,7 +14,7 @@
         <div class="row thread-content">
             <div class="col">
                 @if(posts.page === 1)
-                @!component('lib.post', el = 'div', post = thread)
+                @!component('lib.post', el = 'div', post = thread, showEditThread = true)
                 @endif
 
                 @if(posts.data.length)
@@ -56,14 +56,6 @@
 @endsection
 
 @section('sidebar')
-
-@if( hasPermission('edit', 'thread', thread.user.id))
-<div class="row page-sidebar-section">
-    <div class="col thread-category align-middle">
-        {{linkTo('edit_discussion', 'Edit discussion', { id : thread.id }, 'btn btn-primary') }}
-    </div>
-</div>
-@endif
 
 @!include('lib.thread-sidebar')
 
