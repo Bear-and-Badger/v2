@@ -1,4 +1,8 @@
 <ul class="pagination float-right">
+@if(curr > 1)
+    <li class="pagination-item">{{linkTo(link, 'Previous', { page : curr - 1, id : id }) }}</li>
+@endif
+
 @if(last > 9)
     <li class="pagination-item">{{linkTo(link, '1', { page : 1, id : id }) }}</li>
 
@@ -25,5 +29,9 @@
             {{linkTo(link, number, { page : number, id : id }) }}
         </li>
     @endeach
+@endif
+
+@if(curr < last)
+    <li class="pagination-item">{{linkTo(link, 'Next', { page : curr + 1, id : id }) }}</li>
 @endif
 </ul>
