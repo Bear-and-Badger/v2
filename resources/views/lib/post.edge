@@ -15,18 +15,7 @@
     <div class="row">
         @if(!hideUser && !showThread)
         <div class="col-sm-4 col-lg-2 user-details">
-            <a class="user-name dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="-30%p">
-            {{post.user.name}}
-            </a>
-
-            @if(currentUser && post.user.id !== currentUser.id)
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <ul class="listings listings-minor user-actions">
-                    <li class="listing">{{ linkTo('profile', 'View profile', { id : post.user.id }) }}</li>
-                    <li class="listing">{{ linkTo('new_chat', 'Send message', { recipient : post.user.name }) }}</li>
-                </ul>
-            </div>
-            @endif
+            {{linkTo('profile', post.user.name, { id : post.user.id }, 'user-name')}}
 
             <img src="http://thebearandbadger.co.uk/uploads/userpics/849/nTGZW40JO3KB0.gif" />
         </div>

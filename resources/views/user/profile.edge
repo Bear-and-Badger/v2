@@ -42,10 +42,26 @@
 @endsection
 
 @section('sidebar')
+
+<div class="row page-sidebar-section">
+    <div class="col">
+        <img src="http://thebearandbadger.co.uk/uploads/userpics/849/nTGZW40JO3KB0.gif" />
+    </div>
+</div>
+
+
 @if( hasPermission('edit', 'user', user.id))
 <div class="row page-sidebar-section">
     <div class="col thread-category align-middle">
-        {{linkTo('profile', 'Edit profile', { id : user.id }, 'btn btn-primary')}}
+        {{linkTo('profile', 'Edit profile', { id : user.id }, 'btn btn-primary btn-block')}}
+    </div>
+</div>
+@endif
+
+@if(currentUser.id !== user.id)
+<div class="row page-sidebar-section">
+    <div class="col thread-category align-middle">
+        {{ linkTo('new_chat', 'Send message', { recipient : post.user.name }, 'btn btn-primary btn-block') }}
     </div>
 </div>
 @endif
@@ -53,7 +69,6 @@
 <div class="row page-sidebar-section">
     <div class="col">
         <ul class="listings listings-minor">
-            <li class="listing"><strong>Email</strong> {{user.email}}</li>
             <li class="listing"><strong>Member since</strong> {{user.memberSince}}</li>
             <li class="listing"><strong>Last online</strong> {{user.lastSeen}}</li>
             <li class="listing"><strong>Post count</strong> {{post_count}}</li>
