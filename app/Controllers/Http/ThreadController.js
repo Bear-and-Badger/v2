@@ -1,8 +1,11 @@
 'use strict'
 
+const knex = require('knex')
+
 const ModelUtil = use('App/Helpers/ModelUtil')
 const ViewUtil = use('App/Helpers/ViewUtil')
 
+const LastReadPost = use('App/Models/LastReadPost')
 const Category = use('App/Models/Category')
 const Bookmark = use('App/Models/Bookmark')
 const Thread = use('App/Models/Thread')
@@ -33,6 +36,15 @@ const getThreads = async (page, filter) => {
           .with('user')
           .fetch()
 
+    const lastRead = await LastReadPost.query()
+        .whereIn('thread_id', threadIds)
+        .fetch()
+
+    const lastReadMap = lastRead.toJSON().reduce((map, value) => {
+      map[value.thread_id] = value
+      return map
+    }, {})
+
     const latestPostsJson = latestPosts.toJSON()
 
     let index = 0
@@ -43,6 +55,8 @@ const getThreads = async (page, filter) => {
       if (thread.post_count) {
         thread.latest_post = latestPostsJson[index++]
       }
+
+      thread.last_read = lastReadMap[thread.id] || { page: 1 }
     })
   }
 
@@ -50,7 +64,7 @@ const getThreads = async (page, filter) => {
 }
 
 class ThreadController {
-  async index ({request, view}) {
+  async index ({auth, request, view}) {
     const categoryIds = await request.permissions.getCategoryIds()
     const page = parseInt(request.input('page', 1), 10)
 
@@ -86,7 +100,7 @@ class ThreadController {
     }
   }
 
-  async view ({view, params, request, response}) {
+  async view ({view, auth, params, request, response}) {
     const thread = await Thread.query()
         .where('id', params.id)
         .whereIn('category_id', await request.permissions.getCategoryIds())
@@ -106,28 +120,53 @@ class ThreadController {
         .orderBy('created_at', 'asc')
         .paginate(page, 15)
 
+    const postJson = posts.toJSON()
+
+    const lastPost = postJson.data[postJson.data.length - 1]
+
+    const lastRead = await LastReadPost.query()
+        .where('thread_id', '=', thread.id)
+        .where('user_id', '=', auth.user.id)
+        .first()
+
+    if (lastRead) {
+      if (lastRead.post_id < lastPost.id) {
+        lastRead.post_id = lastPost.id
+        lastRead.page = page
+
+        await lastRead.save()
+      }
+    } else if (page > 1) {
+      await LastReadPost.create({
+        thread_id: thread.id,
+        user_id: auth.user.id,
+        post_id: lastPost.id,
+        page: page
+      })
+    }
+
     return view.render('thread.view', {
       thread: thread.toJSON(),
-      posts: posts.toJSON()
+      posts: postJson
     })
   }
 
   async bookmark ({auth, params, response}) {
     await Bookmark.create({
-        thread_id: params.id,
-        user_id: auth.user.id
+      thread_id: params.id,
+      user_id: auth.user.id
     })
 
     response.route('discussions')
   }
 
   async removeBookmark ({auth, params, response}) {
-      await Bookmark.query()
+    await Bookmark.query()
           .where('user_id', auth.user.id)
           .where('thread_id', params.id)
           .delete()
 
-      response.route('discussions')
+    response.route('discussions')
   }
 
   async new ({request, view}) {

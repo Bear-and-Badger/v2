@@ -5,7 +5,7 @@
 @endif
     <div class="row">
         <div class="col-sm-10">
-            <h5>{{linkTo('discussion', thread.title, { id : thread.id }) }}</h5>
+            <h5>{{linkTo('discussion', thread.title, { id : thread.id, page : thread.last_read.page }) }}</h5>
         </div>
         <div class="col-sm-2 thread-metadata text-md-right">
             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="-30%p">
