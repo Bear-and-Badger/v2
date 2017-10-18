@@ -15,25 +15,28 @@ class ChatController {
         .fetch()
 
     const json = chats.toJSON()
-    const chatIdString = json.map((chat) => chat.id).join(', ')
 
-      // Select the latest message for each chat id. Results are ordered according to the Chats fetched earlier
-    const subquery = 'select `chat_id`, max(`created_at`) created_at from `messages` where `chat_id` in (' +
-          chatIdString + '' +
-          ') group by `chat_id` order by field (`chat_id`, ' +
-          chatIdString + ')'
+    if (json.data.length) {
+      const chatIdString = json.map((chat) => chat.id).join(', ')
 
-    const latestMessages = await Message.query()
-          .joinRaw('join (' + subquery + ') messages2 on messages.chat_id = messages2.chat_id and messages.created_at = messages2.created_at')
-          .orderByRaw(`field (messages.chat_id, ${chatIdString})`)
-          .with('user')
-          .fetch()
+        // Select the latest message for each chat id. Results are ordered according to the Chats fetched earlier
+      const subquery = 'select `chat_id`, max(`created_at`) created_at from `messages` where `chat_id` in (' +
+            chatIdString + '' +
+            ') group by `chat_id` order by field (`chat_id`, ' +
+            chatIdString + ')'
 
-    const latestMessagesJson = latestMessages.toJSON()
+      const latestMessages = await Message.query()
+            .joinRaw('join (' + subquery + ') messages2 on messages.chat_id = messages2.chat_id and messages.created_at = messages2.created_at')
+            .orderByRaw(`field (messages.chat_id, ${chatIdString})`)
+            .with('user')
+            .fetch()
 
-    json.forEach((chat, i) => {
-      chat.latest_message = latestMessagesJson[i]
-    })
+      const latestMessagesJson = latestMessages.toJSON()
+
+      json.forEach((chat, i) => {
+        chat.latest_message = latestMessagesJson[i]
+      })
+    }
 
     return view.render('chat.inbox', {
       chats: json
