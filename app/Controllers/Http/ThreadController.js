@@ -1,7 +1,5 @@
 'use strict'
 
-const knex = require('knex')
-
 const ModelUtil = use('App/Helpers/ModelUtil')
 const ViewUtil = use('App/Helpers/ViewUtil')
 
@@ -64,16 +62,27 @@ const getThreads = async (page, filter) => {
 }
 
 class ThreadController {
-  async index ({auth, request, view}) {
+  async index ({request, view}) {
     const categoryIds = await request.permissions.getCategoryIds()
     const page = parseInt(request.input('page', 1), 10)
 
     const threads = await getThreads(page, (query) => {
-      return query.whereIn('category_id', categoryIds)
+      return query.where('stickied', false)
+          .whereIn('category_id', categoryIds)
     })
 
+    let stickied = { data: [] }
+
+    if (page === 1) {
+      stickied = await getThreads(page, (query) => {
+        return query.where('stickied', true)
+                .whereIn('category_id', categoryIds)
+      })
+    }
+
     return view.render('thread.index', {
-      threads: threads
+      threads: threads,
+      stickied: stickied
     })
   }
 
@@ -149,6 +158,22 @@ class ThreadController {
       thread: thread.toJSON(),
       posts: postJson
     })
+  }
+
+  async sticky ({params, response}) {
+    const thread = await Thread.find(params.id)
+    thread.stickied = true
+    await thread.save()
+
+    response.route('discussions')
+  }
+
+  async removeSticky ({params, response}) {
+    const thread = await Thread.find(params.id)
+    thread.stickied = false
+    await thread.save()
+
+    response.route('discussions')
   }
 
   async bookmark ({auth, params, response}) {

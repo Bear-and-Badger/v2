@@ -5,7 +5,11 @@
 @endif
     <div class="row">
         <div class="col-sm-10">
-            <h5>{{linkTo('discussion', thread.title, { id : thread.id, page : thread.last_read.page }) }}</h5>
+            @if(sticky)
+                <h5>{{linkTo('discussion', 'Sticky: ' + thread.title, { id : thread.id, page : thread.last_read.page }) }}</h5>
+            @else
+                <h5>{{linkTo('discussion', thread.title, { id : thread.id, page : thread.last_read.page }) }}</h5>
+            @endif
         </div>
         <div class="col-sm-2 thread-metadata text-md-right">
             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="-30%p">
@@ -20,6 +24,13 @@
                     <li class="listing">{{linkTo('bookmark', 'Bookmark', { id : thread.id }) }}</li>
                     @endif
                     <li class="listing"><a href="/mark/{{thread.id}}">Mark as read</a></li>
+                    @if(hasPermission('sticky', 'thread', thread.user.id))
+                        @if(thread.stickied)
+                            <li class="listing">{{linkTo('remove_sticky', 'Unstick thread', { id : thread.id }) }}</li>
+                        @else
+                            <li class="listing">{{linkTo('sticky', 'Stick thread', { id : thread.id }) }}</li>
+                        @endif
+                    @endif
                     @if(hasPermission('delete', 'thread', thread.user.id))
                     <li class="listing"><a href="/delete/{{thread.id}}">Delete discussion</a></li>
                     @endif

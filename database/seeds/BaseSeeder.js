@@ -10,7 +10,8 @@ const commonPermissions = {
 
 // The set of permissions assigned to admins only
 const adminPermissions = {
-  delete: ['user']
+  delete: ['user'],
+  sticky: ['thread']
 }
 
 // List of default categories

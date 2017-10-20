@@ -48,6 +48,9 @@ Route.group('authorised', function () {
   Route.get('/edit/discussion/:id', 'ThreadController.edit').as('edit_discussion')
   Route.post('/save/discussion', 'ThreadController.save')
 
+  Route.get('/add/sticky/:id', 'ThreadController.sticky').as('sticky')
+  Route.get('/remove/sticky/:id', 'ThreadController.removeSticky').as('remove_sticky')
+
   Route.get('/add/bookmark/:id', 'ThreadController.bookmark').as('bookmark')
   Route.get('/remove/bookmark/:id', 'ThreadController.removeBookmark').as('remove_bookmark')
 }).middleware('checkUser')

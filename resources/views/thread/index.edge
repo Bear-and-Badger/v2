@@ -22,6 +22,9 @@
         </div>
         <div class="row thread-content">
             <div class="col listings listings-major thread-listings">
+                @each(thread in stickied.data)
+                    @!component('lib.thread', thread = thread, $loop = $loop, sticky = true)
+                @endeach
                 @each(thread in threads.data)
                     @!component('lib.thread', thread = thread, $loop = $loop)
                 @else
